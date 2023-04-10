@@ -1,6 +1,6 @@
 #include "graph.h"
 
-#include "s21_smart_calc.h"
+#include "model.h"
 #include "ui_graph.h"
 
 graph::graph(QWidget *parent) : QDialog(parent), ui(new Ui::graph) {

@@ -1,7 +1,7 @@
-#include "mainwindow.h"
+#include "controller.h"
 
 #include "graph.h"
-#include "ui_mainwindow.h"
+#include "ui_controller.h"
 
 bool sign = false;
 int butt_end = END;

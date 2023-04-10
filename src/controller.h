@@ -1,5 +1,5 @@
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#ifndef CONTROLLER_H
+#define CONTROLLER_H
 
 #include <QClipboard>
 #include <QKeyEvent>
@@ -7,7 +7,7 @@
 #include <QScreen>
 
 #include "graph.h"
-#include "s21_smart_calc.h"
+#include "model.h"
 
 #define END 0
 #define NUMBER 1  //цифры
@@ -69,4 +69,4 @@ class MainWindow : public QMainWindow {
  signals:
   void sendPrint(const char *str_in1, double *ranges);
 };
-#endif  // MAINWINDOW_H
+#endif  // CONTROLLER_H

@@ -4,8 +4,8 @@
 из инфискной в постфиксную нотацию
 */
 
-#ifndef S21_SMART_CALC_H_
-#define S21_SMART_CALC_H_
+#ifndef MODEL_H_
+#define MODEL_H_
 
 #include <math.h>
 #include <stdio.h>
@@ -95,4 +95,4 @@ int operand(const char *str, double *rez, double x);
 }
 #endif
 
-#endif  // S21_SMART_CALC_H_
+#endif  // MODEL_H_

@@ -1,8 +1,8 @@
-#include "s21_smart_calc.h"
+#include "controller.h"
 
 double stack[STACK_DEPTH];
 void dijkstra_algorithm(char *out_str) {
-  struct stack *operands = NULL;  // стек
+  struct stack *operands = NULL;
   int input_char_number = 0;  // номер символа во входной строке
   int output_char_number = 0;  // номер символа в выходной строке
   char str_arr[STACK_DEPTH];  // массив для символов преобразованной строки

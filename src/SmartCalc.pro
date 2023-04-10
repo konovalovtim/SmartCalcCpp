@@ -11,19 +11,19 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    controller.cpp \
     graph.cpp \
     main.cpp \
-    mainwindow.cpp \
-    s21_smart_calc.c
+    model.c
 
 HEADERS += \
+    controller.h \
     graph.h \
-    mainwindow.h \
-    s21_smart_calc.h
+    model.h
 
 FORMS += \
-    graph.ui \
-    mainwindow.ui
+    controller.ui \
+    graph.ui
 
 QT       += charts
 LIBS += -dead_strip
