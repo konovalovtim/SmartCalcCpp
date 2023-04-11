@@ -96,44 +96,6 @@ void s21::Model::CalculateMonthPay(CreditAnuitetData *data) {
 }
 
 /*
-Метод для подсчета данных кредитного калькулятора
-перегрузка для дифференцированного кредита
-*/
-void s21::Model::CalculateMonthPay(CreditDifferensiveData *data) {
-  data->monthly_payment_max = 0;
-  data->monthly_payment_min = 0;
-  CalcDifferensiveCycle_(data);
-  data->overpay = data->summary_pay - data->credit_sum;
-}
-
-void s21::Model::CalcDifferensiveCycle_(CreditDifferensiveData *data) {
-  std::string formula = "S/N+s*p*31/365/100";
-  std::string tmp_expression = formula;
-  int i = data->month_count;
-  double ostatok = data->credit_sum;
-  while (i > 0) {
-    tmp_expression = formula;
-    ExpressionReplace_(tmp_expression, std::to_string(data->credit_sum), 'S');
-    ExpressionReplace_(tmp_expression, std::to_string(ostatok), 's');
-    ExpressionReplace_(tmp_expression, std::to_string(data->month_count), 'N');
-    ExpressionReplace_(tmp_expression, std::to_string(data->percent), 'p');
-    InputNewExpression(tmp_expression);
-    auto result = GetCalculated();
-    data->summary_pay += result.first;
-    if (i == data->month_count) {
-      data->monthly_payment_max = result.first;
-      data->monthly_payment_min = result.first;
-    }
-    if (result.first > data->monthly_payment_max)
-      data->monthly_payment_max = result.first;
-    if (result.first < data->monthly_payment_min)
-      data->monthly_payment_min = result.first;
-    i--;
-    ostatok = ostatok - result.first;
-  }
-}
-
-/*
 Метод, описывающий действия для обработки ошибок,
 вызываемый при возникновении проблем
 на любой стадии работы приложения

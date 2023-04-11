@@ -42,7 +42,6 @@ public:
     QLabel *label_2;
     QPushButton *button_dot;
     QPushButton *button_asin;
-    QPushButton *credit_button;
     QPushButton *button_atan;
     QPushButton *button_sqrt;
     QPushButton *button_1;
@@ -166,11 +165,6 @@ public:
         button_asin->setObjectName(QString::fromUtf8("button_asin"));
         button_asin->setGeometry(QRect(0, 261, 117, 48));
         button_asin->setFont(font);
-        credit_button = new QPushButton(centralwidget);
-        credit_button->setObjectName(QString::fromUtf8("credit_button"));
-        credit_button->setEnabled(true);
-        credit_button->setGeometry(QRect(79, 568, 354, 41));
-        credit_button->setFont(font);
         button_atan = new QPushButton(centralwidget);
         button_atan->setObjectName(QString::fromUtf8("button_atan"));
         button_atan->setGeometry(QRect(0, 301, 117, 48));
@@ -321,7 +315,6 @@ public:
         label_2->setText(QCoreApplication::translate("s21::View", "X min", nullptr));
         button_dot->setText(QCoreApplication::translate("s21::View", ".", nullptr));
         button_asin->setText(QCoreApplication::translate("s21::View", "asin", nullptr));
-        credit_button->setText(QCoreApplication::translate("s21::View", "\320\232\321\200\320\265\320\264\320\270\321\202\320\275\321\213\320\271 \320\272\320\260\320\273\321\214\320\272\321\203\320\273\321\217\321\202\320\276\321\200", nullptr));
         button_atan->setText(QCoreApplication::translate("s21::View", "atan", nullptr));
         button_sqrt->setText(QCoreApplication::translate("s21::View", "sqrt", nullptr));
         button_1->setText(QCoreApplication::translate("s21::View", "1", nullptr));

@@ -331,27 +331,6 @@ p, li { white-space: pre-wrap; }
      <string>asin</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="credit_button">
-    <property name="enabled">
-     <bool>true</bool>
-    </property>
-    <property name="geometry">
-     <rect>
-      <x>79</x>
-      <y>568</y>
-      <width>354</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>26</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>Кредитный калькулятор</string>
-    </property>
-   </widget>
    <widget class="QPushButton" name="button_atan">
     <property name="geometry">
      <rect>

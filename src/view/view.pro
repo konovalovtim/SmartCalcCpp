@@ -11,7 +11,6 @@ CONFIG += c++17
 SOURCES += \
     ../controller/controller.cc \
     ../model/model.cc \
-    credit.cc \
     main.cc \
     qcustomplot.cc \
     view.cc
@@ -21,14 +20,10 @@ HEADERS += \
     ../model/helpers/calculation.h \
     ../model/helpers/operations.h \
     ../model/model.h \
-    config.h \
-    config.h.in \
-    credit.h \
     qcustomplot.h \
     view.h
 
 FORMS += \
-    credit.ui \
     view.ui
 
 # Default rules for deployment.

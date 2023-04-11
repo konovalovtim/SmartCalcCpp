@@ -14,7 +14,5 @@ public:
   ~Controller() { ; }
   lexem GetResult();
   int GraphCalculation(GraphData *data);
-  void CalculateMonthPay(CreditAnuitetData *data);
-  void CalculateMonthPay(CreditDifferensiveData *data);
 }; // class Controller
 } // namespace s21

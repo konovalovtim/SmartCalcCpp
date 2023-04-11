@@ -30,23 +30,3 @@ s21::Controller::lexem s21::Controller::GetResult() {
 int s21::Controller::GraphCalculation(GraphData *data) {
   return model_.GraphCalculation(data);
 }
-
-/*
-Метод контроллера вызываемый из view
-высчитывает данные для кредитного калькулятора
-используя метод из model
-перегрузка для ануитетного кредита
-*/
-void s21::Controller::CalculateMonthPay(CreditAnuitetData *data) {
-  model_.CalculateMonthPay(data);
-}
-
-/*
-Метод контроллера вызываемый из view
-высчитывает данные для кредитного калькулятора
-используя метод из model
-перегрузка для дифференцированного кредита
-*/
-void s21::Controller::CalculateMonthPay(CreditDifferensiveData *data) {
-  model_.CalculateMonthPay(data);
-}

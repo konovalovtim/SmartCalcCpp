@@ -31,7 +31,6 @@ void s21::View::ConnectButtons_() {
   connect(ui->radio_value, SIGNAL(toggled(bool)), this, SLOT(XEnabled_()));
   connect(ui->radio_graph, SIGNAL(toggled(bool)), this, SLOT(XEnabled_()));
   connect(ui->button_make_graph, SIGNAL(clicked()), this, SLOT(MakeGraph_()));
-  connect(ui->credit_button, SIGNAL(clicked()), this, SLOT(StartCredit_()));
 }
 
 void s21::View::ErrorClear_() { // чистка лейбла перед вводом
@@ -120,11 +119,4 @@ void s21::View::MakeGraph_() {
     ui->widget->yAxis->setRange(data.Ymin, data.Ymax);
     ui->widget->replot();
   }
-}
-
-void s21::View::StartCredit_() {
-  Credit window;
-  window.setModal(true);
-  window.show();
-  window.exec();
 }

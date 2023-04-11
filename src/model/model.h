@@ -60,7 +60,6 @@ private:
   static bool IsLetter_(char symbol);
   void ErrorHandling_();
   void ExpressionReplace_(std::string &src, const std::string sub, char sym);
-  void CalcDifferensiveCycle_(CreditDifferensiveData *data);
 }; // class Model
 } // namespace s21
 

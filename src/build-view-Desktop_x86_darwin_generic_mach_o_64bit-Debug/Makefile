@@ -54,19 +54,15 @@ OBJECTS_DIR   = ./
 
 SOURCES       = ../controller/controller.cc \
 		../model/model.cc \
-		../view/credit.cc \
 		../view/main.cc \
 		../view/qcustomplot.cc \
-		../view/view.cc moc_credit.cpp \
-		moc_qcustomplot.cpp \
+		../view/view.cc moc_qcustomplot.cpp \
 		moc_view.cpp
 OBJECTS       = controller.o \
 		model.o \
-		credit.o \
 		main.o \
 		qcustomplot.o \
 		view.o \
-		moc_credit.o \
 		moc_qcustomplot.o \
 		moc_view.o
 DIST          = /usr/local/share/qt/mkspecs/features/spec_pre.prf \
@@ -295,6 +291,7 @@ DIST          = /usr/local/share/qt/mkspecs/features/spec_pre.prf \
 		/usr/local/share/qt/mkspecs/features/qt_config.prf \
 		/usr/local/share/qt/mkspecs/macx-clang/qmake.conf \
 		/usr/local/share/qt/mkspecs/features/spec_post.prf \
+		../view/.qmake.stash \
 		/usr/local/share/qt/mkspecs/features/exclusive_builds.prf \
 		/usr/local/share/qt/mkspecs/features/mac/sdk.prf \
 		/usr/local/share/qt/mkspecs/features/toolchain.prf \
@@ -327,13 +324,9 @@ DIST          = /usr/local/share/qt/mkspecs/features/spec_pre.prf \
 		../model/helpers/calculation.h \
 		../model/helpers/operations.h \
 		../model/model.h \
-		../view/config.h \
-		../view/config.h.in \
-		../view/credit.h \
 		../view/qcustomplot.h \
 		../view/view.h ../controller/controller.cc \
 		../model/model.cc \
-		../view/credit.cc \
 		../view/main.cc \
 		../view/qcustomplot.cc \
 		../view/view.cc
@@ -345,7 +338,7 @@ TARGET        = view.app/Contents/MacOS/view
 EXPORT_QMAKE_MAC_SDK = macosx
 EXPORT_QMAKE_MAC_SDK_VERSION = 12.1
 EXPORT_QMAKE_XCODE_DEVELOPER_PATH = /Applications/Xcode.app/Contents/Developer
-EXPORT__QMAKE_STASH_ = 
+EXPORT__QMAKE_STASH_ = /Users/amycuspy/github/SmartCalcCpp/src/build-view-Desktop_x86_darwin_generic_mach_o_64bit-Debug/.qmake.stash
 EXPORT_VALID_ARCHS = x86_64
 EXPORT_DEFAULT_ARCHS = x86_64
 EXPORT_ARCHS = $(filter $(EXPORT_VALID_ARCHS), $(if $(ARCHS), $(ARCHS), $(if $(EXPORT_DEFAULT_ARCHS), $(EXPORT_DEFAULT_ARCHS), $(EXPORT_VALID_ARCHS))))
@@ -357,7 +350,7 @@ include /usr/local/share/qt/mkspecs/features/mac/sdk.mk
 first: all
 ####### Build rules
 
-view.app/Contents/MacOS/view: ui_credit.h ui_view.h $(OBJECTS)  
+view.app/Contents/MacOS/view: ui_view.h $(OBJECTS)  
 	@test -d view.app/Contents/MacOS/ || mkdir -p view.app/Contents/MacOS/
 	$(LINK) $(LFLAGS) -o $(TARGET) $(OBJECTS) $(OBJCOMP) $(LIBS)
 
@@ -587,6 +580,7 @@ Makefile: ../view/view.pro /usr/local/share/qt/mkspecs/macx-clang/qmake.conf /us
 		/usr/local/share/qt/mkspecs/features/qt_config.prf \
 		/usr/local/share/qt/mkspecs/macx-clang/qmake.conf \
 		/usr/local/share/qt/mkspecs/features/spec_post.prf \
+		.qmake.stash \
 		/usr/local/share/qt/mkspecs/features/exclusive_builds.prf \
 		/usr/local/share/qt/mkspecs/features/mac/sdk.prf \
 		/usr/local/share/qt/mkspecs/features/toolchain.prf \
@@ -847,6 +841,7 @@ Makefile: ../view/view.pro /usr/local/share/qt/mkspecs/macx-clang/qmake.conf /us
 /usr/local/share/qt/mkspecs/features/qt_config.prf:
 /usr/local/share/qt/mkspecs/macx-clang/qmake.conf:
 /usr/local/share/qt/mkspecs/features/spec_post.prf:
+.qmake.stash:
 /usr/local/share/qt/mkspecs/features/exclusive_builds.prf:
 /usr/local/share/qt/mkspecs/features/mac/sdk.prf:
 /usr/local/share/qt/mkspecs/features/toolchain.prf:
@@ -910,9 +905,9 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /usr/local/share/qt/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../controller/controller.h ../model/helpers/calculation.h ../model/helpers/operations.h ../model/model.h ../view/config.h ../view/config.h.in ../view/credit.h ../view/qcustomplot.h ../view/view.h $(DISTDIR)/
-	$(COPY_FILE) --parents ../controller/controller.cc ../model/model.cc ../view/credit.cc ../view/main.cc ../view/qcustomplot.cc ../view/view.cc $(DISTDIR)/
-	$(COPY_FILE) --parents ../view/credit.ui ../view/view.ui $(DISTDIR)/
+	$(COPY_FILE) --parents ../controller/controller.h ../model/helpers/calculation.h ../model/helpers/operations.h ../model/model.h ../view/qcustomplot.h ../view/view.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../controller/controller.cc ../model/model.cc ../view/main.cc ../view/qcustomplot.cc ../view/view.cc $(DISTDIR)/
+	$(COPY_FILE) --parents ../view/view.ui $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -922,6 +917,7 @@ clean: compiler_clean
 
 distclean: clean 
 	-$(DEL_FILE) -r view.app
+	-$(DEL_FILE) .qmake.stash
 	-$(DEL_FILE) Makefile
 
 
@@ -946,20 +942,9 @@ compiler_moc_predefs_clean:
 moc_predefs.h: /usr/local/share/qt/mkspecs/features/data/dummy.cpp
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang++ -pipe -stdlib=libc++ -g -std=gnu++1z $(EXPORT_ARCH_ARGS) -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.1.sdk -mmacosx-version-min=11 -Wall -Wextra -dM -E -o moc_predefs.h /usr/local/share/qt/mkspecs/features/data/dummy.cpp
 
-compiler_moc_header_make_all: moc_credit.cpp moc_qcustomplot.cpp moc_view.cpp
+compiler_moc_header_make_all: moc_qcustomplot.cpp moc_view.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) moc_credit.cpp moc_qcustomplot.cpp moc_view.cpp
-moc_credit.cpp: ../view/credit.h \
-		../controller/controller.h \
-		../model/model.h \
-		../model/helpers/calculation.h \
-		../model/helpers/operations.h \
-		/usr/local/lib/QtWidgets.framework/Headers/QDialog \
-		/usr/local/lib/QtWidgets.framework/Headers/qdialog.h \
-		moc_predefs.h \
-		/usr/local/share/qt/libexec/moc
-	/usr/local/share/qt/libexec/moc $(DEFINES) --include /Users/amycuspy/github/SmartCalcCpp/src/build-view-Desktop_x86_darwin_generic_mach_o_64bit-Debug/moc_predefs.h -I/usr/local/share/qt/mkspecs/macx-clang -I/Users/amycuspy/github/SmartCalcCpp/src/view -I/usr/local/lib/QtPrintSupport.framework/Headers -I/usr/local/lib/QtWidgets.framework/Headers -I/usr/local/lib/QtGui.framework/Headers -I/usr/local/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.1.sdk/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/13.0.0/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.1.sdk/usr/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -F/usr/local/lib ../view/credit.h -o moc_credit.cpp
-
+	-$(DEL_FILE) moc_qcustomplot.cpp moc_view.cpp
 moc_qcustomplot.cpp: ../view/qcustomplot.h \
 		../view/config.h \
 		/usr/local/lib/QtCore.framework/Headers/qmath.h \
@@ -987,13 +972,9 @@ compiler_moc_objc_header_make_all:
 compiler_moc_objc_header_clean:
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
-compiler_uic_make_all: ui_credit.h ui_view.h
+compiler_uic_make_all: ui_view.h
 compiler_uic_clean:
-	-$(DEL_FILE) ui_credit.h ui_view.h
-ui_credit.h: ../view/credit.ui \
-		/usr/local/share/qt/libexec/uic
-	/usr/local/share/qt/libexec/uic ../view/credit.ui -o ui_credit.h
-
+	-$(DEL_FILE) ui_view.h
 ui_view.h: ../view/view.ui \
 		/usr/local/share/qt/libexec/uic \
 		../view/qcustomplot.h \
@@ -1026,16 +1007,6 @@ model.o: ../model/model.cc ../model/model.h \
 		../model/helpers/operations.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o model.o ../model/model.cc
 
-credit.o: ../view/credit.cc ../view/credit.h \
-		../controller/controller.h \
-		../model/model.h \
-		../model/helpers/calculation.h \
-		../model/helpers/operations.h \
-		/usr/local/lib/QtWidgets.framework/Headers/QDialog \
-		/usr/local/lib/QtWidgets.framework/Headers/qdialog.h \
-		ui_credit.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o credit.o ../view/credit.cc
-
 main.o: ../view/main.cc ../view/view.h \
 		../view/credit.h \
 		../controller/controller.h \
@@ -1067,11 +1038,13 @@ view.o: ../view/view.cc ../view/view.h \
 		/usr/local/lib/QtWidgets.framework/Headers/qdialog.h \
 		/usr/local/lib/QtWidgets.framework/Headers/QMainWindow \
 		/usr/local/lib/QtWidgets.framework/Headers/qmainwindow.h \
-		ui_view.h
+		ui_view.h \
+		../view/qcustomplot.h \
+		../view/config.h \
+		/usr/local/lib/QtCore.framework/Headers/qmath.h \
+		/usr/local/lib/QtCore.framework/Headers/qnumeric.h \
+		/usr/local/lib/QtCore.framework/Headers/QtNumeric
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o view.o ../view/view.cc
-
-moc_credit.o: moc_credit.cpp 
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_credit.o moc_credit.cpp
 
 moc_qcustomplot.o: moc_qcustomplot.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_qcustomplot.o moc_qcustomplot.cpp

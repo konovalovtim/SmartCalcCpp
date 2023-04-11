@@ -31,7 +31,6 @@ private slots:
   void Calculate_();
   void XEnabled_();
   void MakeGraph_();
-  void StartCredit_();
 };
 
 } // namespace s21
