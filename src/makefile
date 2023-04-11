@@ -2,7 +2,7 @@ APP = build/SmartCalc.app
 BACKEND_FILES = s21_smartcalc.c;
 BACKEND_FILES_O = s21_smartcalc.o
 
-CC+FLAGS = g++ -std=c++17 -Wall -Wextra -Werror
+CC+FLAGS = g++ -std=c++17 -Wall -Wextra -Werror -lgtest_main
 GCOVFLAGS = -L. --coverage -ls21_smartcalc
 OS = $(shell uname)
 ifeq ($(OS), Linux)
@@ -36,11 +36,11 @@ test: s21_smartcalc.a
 	$(TEST_COMPILE)
 	./a.out
 
-gcov_report:
+gcov_report: test
 	rm -f *.g*
 	$(CC+FLAGS) tests.cpp Model/model.cpp Controller/controller.cpp $(GTEST_FLAGS) $(GCOVFLAGS)
 	./a.out
-	lcov -t a.out -o rep.info -c -d .
+	lcov -t a.out -o rep.info --no-external -c -d .
 	genhtml -o report rep.info
 	open ./report/index.html
 	rm -rf *.gcda *.gcno *.info

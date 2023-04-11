@@ -124,6 +124,6 @@ private:
 };
 
 bool IsNumber(char c);
-}  // namespace s21
+}
 
 #endif  // SRC_MODEL_H_

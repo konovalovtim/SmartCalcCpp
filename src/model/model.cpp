@@ -654,7 +654,7 @@ void Model::InputStringParsing::CaseNumber() {
             lexemes_[lex_amount_].value = atof(massive_for_number);
             lex_amount_++;
         }
-        delete massive_for_number;
+        delete[] massive_for_number;
     } else {
         return_value_ = false;
     }

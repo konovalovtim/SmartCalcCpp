@@ -20,6 +20,6 @@ public:
                                 const char* step_char_str, long double& x_min, long double& x_max,
                                 long double& y_min, long double& y_max, long double& step);
 };
-}  // namespace s21
+}
 
 #endif  // SRC_CONTROLLER_H_
