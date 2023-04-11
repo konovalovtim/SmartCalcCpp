@@ -8,7 +8,7 @@
 #include <QVector>
 #include <string>
 
-#include "../Controller/controller.h"
+#include "../controller/controller.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
