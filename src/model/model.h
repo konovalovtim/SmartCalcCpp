@@ -1,66 +1,129 @@
 #ifndef SRC_MODEL_H_
 #define SRC_MODEL_H_
 
-#include <iostream>
-#include <list>
-#include <map>
-#include <stdio.h>
-#include <string>
-#include <utility>
+#include <math.h>
+#include <string.h>
 
-#include "helpers/calculation.h"
-#include "helpers/operations.h"
+#include <stack>
+#include <vector>
 
 namespace s21 {
+const int ALLOCATED_SIZE = 256;
+
 class Model {
+private:
+    struct Lexeme {
+        long double value;
+        int priority;
+        int type;
+    };
+
+    enum Type {
+        NUMBER,         // 0
+        VARIABLE,       // 1
+        OPEN_BRACKET,   // 2
+        CLOSE_BRACKET,  // 3
+        UNARY_MINUS,    // 4
+        BINARY_MINUS,   // 5
+        UNARY_PLUS,     // 6
+        BINARY_PLUS,    // 7
+        MUL,            // 8
+        DIV,            // 9
+        POW,            // 10
+        MOD,            // 11
+        COS,            // 12
+        SIN,            // 13
+        TAN,            // 14
+        ACOS,           // 15
+        ASIN,           // 16
+        ATAN,           // 17
+        SQRT,           // 18
+        LN,             // 19
+        LOG             // 20
+    };
+
+    long double result_;
+
+    bool CheckDoubleCorrectness(const char* input_expr_x_, long double& x);
+
+    class InputStringParsing;
+
+    class ReversePolishNotationCalculation;
+
+    bool CheckStrlen(const char* input_expression);
+    bool MainCalculation(InputStringParsing& input_string_parsing_obj);
+
 public:
-  using lexem = std::pair<double, int>;
-  using parse_iter = std::string::iterator;
+    bool MainFunction(const char* input_expression, const char* input_expression_x);
+    bool MainFunction(const char* input_expression, long double x);
+    bool CheckGraphicParameters(const char* x_min_char_str, const char* x_max_char_str,
+                                const char* y_min_char_str, const char* y_max_char_str,
+                                const char* step_char_str, long double& x_min, long double& x_max,
+                                long double& y_min, long double& y_max, long double& step);
+    long double GetResult() { return result_; }
+};
+
+class Model::InputStringParsing {
+public:
+    std::vector<Lexeme> lexemes_;
+
+    explicit InputStringParsing(const char* input_expression) {
+        return_value_ = true;
+        input_cnt_ = lex_amount_ = bracket_count_ = 0;
+        lexemes_.reserve(ALLOCATED_SIZE);
+        ClearMassiveForLexemes();
+        input_expression_ = input_expression;
+    }
+    bool Parsing();
+    void CaseOpenBracket();
+    void CaseCloseBracket();
+    void CaseMinus();
+    void CasePlus();
+    void CaseMul();
+    void CaseDiv();
+    void CasePow();
+    void CaseX();
+    void CaseSin();
+    void CaseSqrt();
+    void CaseCos();
+    void CaseTan();
+    void CaseMod();
+    void CaseAsin();
+    void CaseAcos();
+    void CaseAtan();
+    void CaseLn();
+    void CaseLog();
+    void CaseNumber();
+    void FinalCheck();
 
 private:
-  std::string expression_;
-  std::list<std::pair<double, int>> stack_;
-  std::list<std::pair<double, int>> output_;
-  calculation calculation_;
+    bool return_value_;
+    int input_cnt_, lex_amount_, bracket_count_;
+    const char* input_expression_;
 
-  std::map<std::string, int> functions_dictionary_ = {
-      {"cos", kCOS},   {"sin", kSIN},   {"tan", kTAN},   {"acos", kACOS},
-      {"asin", kASIN}, {"atan", kATAN}, {"sqrt", kSQRT}, {"ln", kLN},
-      {"log", kLOG},   {"mod", kMOD}};
+    void ClearMassiveForLexemes();
+};
 
-  std::map<char, int> operations_dictionary_ = {
-      {'~', kU_MIN}, {'*', kMULT}, {'^', kPOW},  {'/', kDIV},
-      {'+', kSUM},   {'-', kSUB},  {'(', kOPEN}, {')', kCLOSE}};
-
+class Model::ReversePolishNotationCalculation {
 public:
-  Model() { ; }
-  void InputNewExpression(std::string expression);
-  ~Model() { ; }
-  lexem GetCalculated();
-  int GraphCalculation(GraphData *data);
-  void CalculateMonthPay(CreditAnuitetData *data);
-  void CalculateMonthPay(CreditDifferensiveData *data);
+    ReversePolishNotationCalculation() {
+        stack_.reserve(ALLOCATED_SIZE);
+        output_.reserve(ALLOCATED_SIZE);
+        stack_cnt_ = output_amount_ = -1;
+    }
+    ~ReversePolishNotationCalculation() {}
+    void TranslateToRpn(std::vector<Lexeme>& lexemes_);
+    int IsOperator(Lexeme lexeme);
+
+    int ReversePolishNotationCalculator(long double& result);
 
 private:
-  int ParseCycle_();
-  lexem GetOperation_(parse_iter &iter);
-  lexem GetNumber_(parse_iter &iter);
-  lexem GetFunc_(parse_iter &iter);
-  bool BringToNormal_();
-  int CalcPrecedence_(lexem curr_lexem);
-  void FilterLexem_(lexem curr_lexem);
-  bool ProcessBrackets_(lexem curr_lexem);
-  void ProcessPrecedence_(lexem curr_lexem);
-  void MoveToOutput_();
-  int GetResult_();
-  int ApplyOperation_();
-  int GetTwo_(double *num1, double *num2);
-  int GetOne_(double *num);
-  static bool IsNum_(char symbol);
-  static bool IsLetter_(char symbol);
-  void ErrorHandling_();
-  void ExpressionReplace_(std::string &src, const std::string sub, char sym);
-}; // class Model
-} // namespace s21
+    std::vector<Lexeme> stack_;
+    std::vector<Lexeme> output_;
+    int stack_cnt_, output_amount_;
+};
 
-#endif // SRC_MODEL_H_
+bool IsNumber(char c);
+}  // namespace s21
+
+#endif  // SRC_MODEL_H_
