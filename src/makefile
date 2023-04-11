@@ -11,8 +11,6 @@ else
 	GTEST_FLAGS = -lgtest
 endif
 
-TEST_COMPILE = $(CC+FLAGS) tests.cpp s21_smartcalc.a $(GTEST_FLAGS) -L. -ls21_smartcalc
-
 all: test install clean
 
 install:
@@ -33,12 +31,12 @@ dist:
 	rm -rf Archive_SmartCalc_v1.0/
 
 test: s21_smartcalc.a
-	$(TEST_COMPILE)
+	$(CC+FLAGS) unit_tests/unit_tests.cc s21_smartcalc.a $(GTEST_FLAGS) -L. -ls21_smartcalc
 	./a.out
 
 gcov_report: test
 	rm -f *.g*
-	$(CC+FLAGS) tests.cpp Model/model.cpp Controller/controller.cpp $(GTEST_FLAGS) $(GCOVFLAGS)
+	$(CC+FLAGS) unit_tests/unit_tests.cc Model/model.cpp Controller/controller.cpp $(GTEST_FLAGS) $(GCOVFLAGS)
 	./a.out
 	lcov -t a.out -o rep.info --no-external -c -d .
 	genhtml -o report rep.info
@@ -53,7 +51,7 @@ s21_smartcalc.a: s21_smartcalc.o
 	cp libs21_smartcalc.a ls21_smartcalc.a
 
 s21_smartcalc.o:
-	$(CC+FLAGS) -c tests.cpp Model/model.cpp Controller/controller.cpp
+	$(CC+FLAGS) -c unit_tests/unit_tests.cc Model/model.cpp Controller/controller.cpp
 
 check: test
 	CK_FORK=no leaks --atExit -- ./a.out
