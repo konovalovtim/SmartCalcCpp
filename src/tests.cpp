@@ -268,9 +268,4 @@ TEST(Test, smartcalc_tests_36) {
         "10", "-10e+8bbb", "g10", "-10", "0.1", x_min, x_max, y_min, y_max, step);
     EXPECT_EQ(return_value, false);
 }
-}  // namespace s21
-
-int main(int argc, char *argv[]) {
-    testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
 }
