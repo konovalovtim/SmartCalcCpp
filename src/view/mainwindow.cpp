@@ -12,15 +12,13 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->lineEdit_yMin->setAlignment(Qt::AlignHCenter);
     ui->lineEdit_xValue->setAlignment(Qt::AlignHCenter);
     ui->lineEdit_step->setText("0.1");
-    ui->lineEdit_xMax->setText("10");
-    ui->lineEdit_xMin->setText("-10");
-    ui->lineEdit_yMax->setText("10");
-    ui->lineEdit_yMin->setText("-10");
+    ui->lineEdit_xMax->setText("20");
+    ui->lineEdit_xMin->setText("-20");
+    ui->lineEdit_yMax->setText("20");
+    ui->lineEdit_yMin->setText("-20");
     ui->lineEdit_xValue->setText("0");
-
-    ui->widget->xAxis->setRange(-10, 10);
-    ui->widget->yAxis->setRange(-10, 10);
-
+    ui->widget->xAxis->setRange(-20, 20);
+    ui->widget->yAxis->setRange(-20, 20);
     ui->lineText_step->setReadOnly(true);
     ui->lineText_xMax->setReadOnly(true);
     ui->lineText_xMin->setReadOnly(true);
@@ -207,6 +205,6 @@ void MainWindow::on_pushButton_Graphics_clicked() {
         x.clear();
         y.clear();
     } else {
-        QMessageBox::about(this, "Ошибка", "Некорректный ввод");
+        QMessageBox::about(this, "Error", "Incorrect imput");
     }
 }
