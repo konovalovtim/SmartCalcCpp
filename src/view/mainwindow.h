@@ -53,6 +53,7 @@ private slots:
     void on_pushButton_degree_clicked();
     void on_pushButton_answer_clicked();
     void on_pushButton_Graphics_clicked();
+
 private:
     Ui::MainWindow *ui;
     QVector<double> x, y;

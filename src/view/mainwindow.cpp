@@ -168,7 +168,6 @@ void MainWindow::on_pushButton_answer_clicked() {
 void MainWindow::on_pushButton_Graphics_clicked() {
     ui->widget->clearGraphs();
 
-    // QString xMa = ui->lineEdit_xMax->text();
     QByteArray xMa = ui->lineEdit_xMax->text().toLocal8Bit();
     const char* x_max_char_str = xMa.data();
 
