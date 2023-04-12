@@ -29,4 +29,4 @@ bool Controller::CheckGraphicParameters(const char* x_min_char_str, const char* 
     return model->CheckGraphicParameters(x_min_char_str, x_max_char_str, y_min_char_str, y_max_char_str,
                                           step_char_str, x_min, x_max, y_min, y_max, step);
 }
-}  // namespace s21
+}
