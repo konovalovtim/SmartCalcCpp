@@ -66,36 +66,36 @@ class Model::InputStringParsing {
 
   explicit InputStringParsing(const char* input) {
     return_value_ = true;
-    input_count = lexeme_amount = bracket_count = 0;
+    input_count = lexeme_count = bracket_count = 0;
     lexemes_.reserve(SIZE);
     ClearMassiveForLexemes();
     input_ = input;
   }
-  bool Parsing();
-  void CaseOpenBracket();
-  void CaseCloseBracket();
-  void CaseMinus();
-  void CasePlus();
-  void CaseMul();
-  void CaseDiv();
-  void CasePow();
-  void CaseX();
-  void CaseSin();
-  void CaseSqrt();
-  void CaseCos();
-  void CaseTan();
-  void CaseMod();
-  void CaseAsin();
-  void CaseAcos();
-  void CaseAtan();
-  void CaseLn();
-  void CaseLog();
-  void CaseNumber();
+  bool Menu();
+  void OpenBracket();
+  void CloseBracket();
+  void Minus();
+  void Plus();
+  void Mul();
+  void Div();
+  void Pow();
+  void X();
+  void Sin();
+  void Sqrt();
+  void Cos();
+  void Tan();
+  void Mod();
+  void Asin();
+  void Acos();
+  void Atan();
+  void Ln();
+  void Log();
+  void Number();
   void FinalCheck();
 
  private:
   bool return_value_;
-  int input_count, lexeme_amount, bracket_count;
+  int input_count, lexeme_count, bracket_count;
   const char* input_;
 
   void ClearMassiveForLexemes();

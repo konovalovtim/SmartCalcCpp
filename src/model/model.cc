@@ -6,7 +6,7 @@ bool Model::Input(const char* input, const char* input_x) {
   if ((int)strlen(input) > SIZE) return_value = false;
   InputStringParsing input_string_parsing_obj(input);
   if (return_value) {
-    return_value = input_string_parsing_obj.Parsing();
+    return_value = input_string_parsing_obj.Menu();
     if (return_value) {
       long double x;
       bool x_correct = false;
@@ -35,7 +35,7 @@ bool Model::Input(const char* input, long double x) {
   if (return_value) {
     InputStringParsing input_string_parsing_obj(input);
     if (return_value) {
-      return_value = input_string_parsing_obj.Parsing();
+      return_value = input_string_parsing_obj.Menu();
       if (return_value) {
         for (int i = 0; input_string_parsing_obj.lexemes_[i].type != -1; i++) {
           if (input_string_parsing_obj.lexemes_[i].type == VARIABLE) {
@@ -69,39 +69,39 @@ void Model::InputStringParsing::ClearMassiveForLexemes() {
   for (int i = 0; i < SIZE; i++) lexemes_[i].type = -1;
 }
 
-bool Model::InputStringParsing::Parsing() {
+bool Model::InputStringParsing::Menu() {
   for (; input_[input_count] != '\0'; input_count++) {
     switch (input_[input_count]) {
       case '(':
-        CaseOpenBracket();
+        OpenBracket();
         break;
       case ')':
-        CaseCloseBracket();
+        CloseBracket();
         break;
       case '-':
-        CaseMinus();
+        Minus();
         break;
       case '+':
-        CasePlus();
+        Plus();
         break;
       case '*':
-        CaseMul();
+        Mul();
         break;
       case '/':
-        CaseDiv();
+        Div();
         break;
       case '^':
-        CasePow();
+        Pow();
         break;
       case 'x':
-        CaseX();
+        X();
         break;
       case 's':
         input_count++;
         if (input_[input_count] == 'i') {
           input_count++;
           if (input_[input_count] == 'n') {
-            CaseSin();
+            Sin();
           } else {
             return_value_ = false;
           }
@@ -110,7 +110,7 @@ bool Model::InputStringParsing::Parsing() {
           if (input_[input_count] == 'r') {
             input_count++;
             if (input_[input_count] == 't') {
-              CaseSqrt();
+              Sqrt();
             } else {
               return_value_ = false;
             }
@@ -126,7 +126,7 @@ bool Model::InputStringParsing::Parsing() {
         if (input_[input_count] == 'o') {
           input_count++;
           if (input_[input_count] == 's') {
-            CaseCos();
+            Cos();
           } else {
             return_value_ = false;
           }
@@ -139,7 +139,7 @@ bool Model::InputStringParsing::Parsing() {
         if (input_[input_count] == 'a') {
           input_count++;
           if (input_[input_count] == 'n') {
-            CaseTan();
+            Tan();
           } else {
             return_value_ = false;
           }
@@ -152,7 +152,7 @@ bool Model::InputStringParsing::Parsing() {
         if (input_[input_count] == 'o') {
           input_count++;
           if (input_[input_count] == 'd') {
-            CaseMod();
+            Mod();
           } else {
             return_value_ = false;
           }
@@ -167,7 +167,7 @@ bool Model::InputStringParsing::Parsing() {
           if (input_[input_count] == 'i') {
             input_count++;
             if (input_[input_count] == 'n') {
-              CaseAsin();
+              Asin();
             } else {
               return_value_ = false;
             }
@@ -179,7 +179,7 @@ bool Model::InputStringParsing::Parsing() {
           if (input_[input_count] == 'o') {
             input_count++;
             if (input_[input_count] == 's') {
-              CaseAcos();
+              Acos();
             } else {
               return_value_ = false;
             }
@@ -191,7 +191,7 @@ bool Model::InputStringParsing::Parsing() {
           if (input_[input_count] == 'a') {
             input_count++;
             if (input_[input_count] == 'n') {
-              CaseAtan();
+              Atan();
             } else {
               return_value_ = false;
             }
@@ -205,11 +205,11 @@ bool Model::InputStringParsing::Parsing() {
       case 'l':
         input_count++;
         if (input_[input_count] == 'n') {
-          CaseLn();
+          Ln();
         } else if (input_[input_count] == 'o') {
           input_count++;
           if (input_[input_count] == 'g') {
-            CaseLog();
+            Log();
           } else {
             return_value_ = false;
           }
@@ -228,7 +228,7 @@ bool Model::InputStringParsing::Parsing() {
       case '8':
       case '9':
       case '.':
-        CaseNumber();
+        Number();
         break;
       case ' ':
         break;
@@ -244,49 +244,49 @@ bool Model::InputStringParsing::Parsing() {
   return return_value_;
 }
 
-void Model::InputStringParsing::CaseOpenBracket() {
-  if (lexeme_amount != 0) {
-    if (lexemes_[lexeme_amount - 1].type == OPEN_BRACKET ||
-        lexemes_[lexeme_amount - 1].type == UNARY_PLUS ||
-        lexemes_[lexeme_amount - 1].type == BINARY_PLUS ||
-        lexemes_[lexeme_amount - 1].type == UNARY_MINUS ||
-        lexemes_[lexeme_amount - 1].type == BINARY_MINUS ||
-        lexemes_[lexeme_amount - 1].type == MUL ||
-        lexemes_[lexeme_amount - 1].type == DIV ||
-        lexemes_[lexeme_amount - 1].type == POW ||
-        lexemes_[lexeme_amount - 1].type == MOD ||
-        lexemes_[lexeme_amount - 1].type == SIN ||
-        lexemes_[lexeme_amount - 1].type == COS ||
-        lexemes_[lexeme_amount - 1].type == TAN ||
-        lexemes_[lexeme_amount - 1].type == ACOS ||
-        lexemes_[lexeme_amount - 1].type == ASIN ||
-        lexemes_[lexeme_amount - 1].type == ATAN ||
-        lexemes_[lexeme_amount - 1].type == SQRT ||
-        lexemes_[lexeme_amount - 1].type == LN ||
-        lexemes_[lexeme_amount - 1].type == LOG) {
-      lexemes_[lexeme_amount].type = OPEN_BRACKET;
-      lexemes_[lexeme_amount].priority = -1;
+void Model::InputStringParsing::OpenBracket() {
+  if (lexeme_count != 0) {
+    if (lexemes_[lexeme_count - 1].type == OPEN_BRACKET ||
+        lexemes_[lexeme_count - 1].type == UNARY_PLUS ||
+        lexemes_[lexeme_count - 1].type == BINARY_PLUS ||
+        lexemes_[lexeme_count - 1].type == UNARY_MINUS ||
+        lexemes_[lexeme_count - 1].type == BINARY_MINUS ||
+        lexemes_[lexeme_count - 1].type == MUL ||
+        lexemes_[lexeme_count - 1].type == DIV ||
+        lexemes_[lexeme_count - 1].type == POW ||
+        lexemes_[lexeme_count - 1].type == MOD ||
+        lexemes_[lexeme_count - 1].type == SIN ||
+        lexemes_[lexeme_count - 1].type == COS ||
+        lexemes_[lexeme_count - 1].type == TAN ||
+        lexemes_[lexeme_count - 1].type == ACOS ||
+        lexemes_[lexeme_count - 1].type == ASIN ||
+        lexemes_[lexeme_count - 1].type == ATAN ||
+        lexemes_[lexeme_count - 1].type == SQRT ||
+        lexemes_[lexeme_count - 1].type == LN ||
+        lexemes_[lexeme_count - 1].type == LOG) {
+      lexemes_[lexeme_count].type = OPEN_BRACKET;
+      lexemes_[lexeme_count].priority = -1;
       bracket_count++;
-      lexeme_amount++;
+      lexeme_count++;
     } else {
       return_value_ = false;
     }
   } else {
-    lexemes_[lexeme_amount].type = OPEN_BRACKET;
-    lexemes_[lexeme_amount].priority = 3;
+    lexemes_[lexeme_count].type = OPEN_BRACKET;
+    lexemes_[lexeme_count].priority = 3;
     bracket_count++;
-    lexeme_amount++;
+    lexeme_count++;
   }
 }
 
-void Model::InputStringParsing::CaseCloseBracket() {
-  if (lexeme_amount != 0) {
-    if (lexemes_[lexeme_amount - 1].type == NUMBER ||
-        lexemes_[lexeme_amount - 1].type == VARIABLE ||
-        lexemes_[lexeme_amount - 1].type == CLOSE_BRACKET) {
-      lexemes_[lexeme_amount].type = CLOSE_BRACKET;
-      lexemes_[lexeme_amount].priority = -1;
-      lexeme_amount++;
+void Model::InputStringParsing::CloseBracket() {
+  if (lexeme_count != 0) {
+    if (lexemes_[lexeme_count - 1].type == NUMBER ||
+        lexemes_[lexeme_count - 1].type == VARIABLE ||
+        lexemes_[lexeme_count - 1].type == CLOSE_BRACKET) {
+      lexemes_[lexeme_count].type = CLOSE_BRACKET;
+      lexemes_[lexeme_count].priority = -1;
+      lexeme_count++;
       bracket_count--;
     } else {
       return_value_ = false;
@@ -296,74 +296,58 @@ void Model::InputStringParsing::CaseCloseBracket() {
   }
 }
 
-void Model::InputStringParsing::CaseMinus() {
-  if (lexeme_amount != 0) {
-    if (lexemes_[lexeme_amount - 1].type == NUMBER ||
-        lexemes_[lexeme_amount - 1].type == VARIABLE ||
-        lexemes_[lexeme_amount - 1].type == CLOSE_BRACKET) {
-      lexemes_[lexeme_amount].type = BINARY_MINUS;
-      lexemes_[lexeme_amount].priority = 1;
-      lexeme_amount++;
-    } else if (lexemes_[lexeme_amount - 1].type == OPEN_BRACKET) {
-      lexemes_[lexeme_amount].type = UNARY_MINUS;
-      lexemes_[lexeme_amount].priority = 1;
-      lexeme_amount++;
+void Model::InputStringParsing::Minus() {
+  if (lexeme_count != 0) {
+    if (lexemes_[lexeme_count - 1].type == NUMBER ||
+        lexemes_[lexeme_count - 1].type == VARIABLE ||
+        lexemes_[lexeme_count - 1].type == CLOSE_BRACKET) {
+      lexemes_[lexeme_count].type = BINARY_MINUS;
+      lexemes_[lexeme_count].priority = 1;
+      lexeme_count++;
+    } else if (lexemes_[lexeme_count - 1].type == OPEN_BRACKET) {
+      lexemes_[lexeme_count].type = UNARY_MINUS;
+      lexemes_[lexeme_count].priority = 1;
+      lexeme_count++;
     } else {
       return_value_ = false;
     }
   } else {
-    lexemes_[lexeme_amount].type = UNARY_MINUS;
-    lexemes_[lexeme_amount].priority = 1;
-    lexeme_amount++;
+    lexemes_[lexeme_count].type = UNARY_MINUS;
+    lexemes_[lexeme_count].priority = 1;
+    lexeme_count++;
   }
 }
 
-void Model::InputStringParsing::CasePlus() {
-  if (lexeme_amount != 0) {
-    if (lexemes_[lexeme_amount - 1].type == NUMBER ||
-        lexemes_[lexeme_amount - 1].type == VARIABLE ||
-        lexemes_[lexeme_amount - 1].type == CLOSE_BRACKET) {
-      lexemes_[lexeme_amount].type = BINARY_PLUS;
-      lexemes_[lexeme_amount].priority = 1;
-      lexeme_amount++;
-    } else if (lexemes_[lexeme_amount - 1].type == OPEN_BRACKET) {
-      lexemes_[lexeme_amount].type = UNARY_PLUS;
-      lexemes_[lexeme_amount].priority = 1;
-      lexeme_amount++;
+void Model::InputStringParsing::Plus() {
+  if (lexeme_count != 0) {
+    if (lexemes_[lexeme_count - 1].type == NUMBER ||
+        lexemes_[lexeme_count - 1].type == VARIABLE ||
+        lexemes_[lexeme_count - 1].type == CLOSE_BRACKET) {
+      lexemes_[lexeme_count].type = BINARY_PLUS;
+      lexemes_[lexeme_count].priority = 1;
+      lexeme_count++;
+    } else if (lexemes_[lexeme_count - 1].type == OPEN_BRACKET) {
+      lexemes_[lexeme_count].type = UNARY_PLUS;
+      lexemes_[lexeme_count].priority = 1;
+      lexeme_count++;
     } else {
       return_value_ = false;
     }
   } else {
-    lexemes_[lexeme_amount].type = UNARY_PLUS;
-    lexemes_[lexeme_amount].priority = 1;
-    lexeme_amount++;
+    lexemes_[lexeme_count].type = UNARY_PLUS;
+    lexemes_[lexeme_count].priority = 1;
+    lexeme_count++;
   }
 }
 
-void Model::InputStringParsing::CaseMul() {
-  if (lexeme_amount != 0) {
-    if (lexemes_[lexeme_amount - 1].type == NUMBER ||
-        lexemes_[lexeme_amount - 1].type == VARIABLE ||
-        lexemes_[lexeme_amount - 1].type == CLOSE_BRACKET) {
-      lexemes_[lexeme_amount].type = MUL;
-      lexemes_[lexeme_amount].priority = 2;
-      lexeme_amount++;
-    } else {
-      return_value_ = false;
-    }
-  } else {
-    return_value_ = false;
-  }
-}
-
-void Model::InputStringParsing::CaseDiv() {
-  if (lexeme_amount != 0) {
-    if (lexemes_[lexeme_amount - 1].type == NUMBER ||
-        lexemes_[lexeme_amount - 1].type == VARIABLE ||
-        lexemes_[lexeme_amount - 1].type == CLOSE_BRACKET) {
-      lexemes_[lexeme_amount].type = DIV;
-      lexemes_[lexeme_amount].priority = 2;
-      lexeme_amount++;
+void Model::InputStringParsing::Mul() {
+  if (lexeme_count != 0) {
+    if (lexemes_[lexeme_count - 1].type == NUMBER ||
+        lexemes_[lexeme_count - 1].type == VARIABLE ||
+        lexemes_[lexeme_count - 1].type == CLOSE_BRACKET) {
+      lexemes_[lexeme_count].type = MUL;
+      lexemes_[lexeme_count].priority = 2;
+      lexeme_count++;
     } else {
       return_value_ = false;
     }
@@ -372,14 +356,14 @@ void Model::InputStringParsing::CaseDiv() {
   }
 }
 
-void Model::InputStringParsing::CasePow() {
-  if (lexeme_amount != 0) {
-    if (lexemes_[lexeme_amount - 1].type == NUMBER ||
-        lexemes_[lexeme_amount - 1].type == VARIABLE ||
-        lexemes_[lexeme_amount - 1].type == CLOSE_BRACKET) {
-      lexemes_[lexeme_amount].type = POW;
-      lexemes_[lexeme_amount].priority = 3;
-      lexeme_amount++;
+void Model::InputStringParsing::Div() {
+  if (lexeme_count != 0) {
+    if (lexemes_[lexeme_count - 1].type == NUMBER ||
+        lexemes_[lexeme_count - 1].type == VARIABLE ||
+        lexemes_[lexeme_count - 1].type == CLOSE_BRACKET) {
+      lexemes_[lexeme_count].type = DIV;
+      lexemes_[lexeme_count].priority = 2;
+      lexeme_count++;
     } else {
       return_value_ = false;
     }
@@ -388,133 +372,14 @@ void Model::InputStringParsing::CasePow() {
   }
 }
 
-void Model::InputStringParsing::CaseX() {
-  if (lexeme_amount != 0) {
-    if (lexemes_[lexeme_amount - 1].type == OPEN_BRACKET ||
-        lexemes_[lexeme_amount - 1].type == UNARY_PLUS ||
-        lexemes_[lexeme_amount - 1].type == BINARY_PLUS ||
-        lexemes_[lexeme_amount - 1].type == UNARY_MINUS ||
-        lexemes_[lexeme_amount - 1].type == BINARY_MINUS ||
-        lexemes_[lexeme_amount - 1].type == MUL ||
-        lexemes_[lexeme_amount - 1].type == DIV ||
-        lexemes_[lexeme_amount - 1].type == POW ||
-        lexemes_[lexeme_amount - 1].type == MOD) {
-      lexemes_[lexeme_amount].type = VARIABLE;
-      lexemes_[lexeme_amount].priority = -1;
-      lexeme_amount++;
-    } else {
-      return_value_ = false;
-    }
-  } else {
-    lexemes_[lexeme_amount].type = VARIABLE;
-    lexeme_amount++;
-  }
-}
-
-void Model::InputStringParsing::CaseSin() {
-  if (lexeme_amount != 0) {
-    if (lexemes_[lexeme_amount - 1].type == OPEN_BRACKET ||
-        lexemes_[lexeme_amount - 1].type == BINARY_MINUS ||
-        lexemes_[lexeme_amount - 1].type == UNARY_MINUS ||
-        lexemes_[lexeme_amount - 1].type == BINARY_PLUS ||
-        lexemes_[lexeme_amount - 1].type == UNARY_MINUS ||
-        lexemes_[lexeme_amount - 1].type == MUL ||
-        lexemes_[lexeme_amount - 1].type == DIV ||
-        lexemes_[lexeme_amount - 1].type == POW ||
-        lexemes_[lexeme_amount - 1].type == MOD) {
-      lexemes_[lexeme_amount].type = SIN;
-      lexemes_[lexeme_amount].priority = 4;
-      lexeme_amount++;
-    } else {
-      return_value_ = false;
-    }
-  } else {
-    lexemes_[lexeme_amount].type = SIN;
-    lexemes_[lexeme_amount].priority = 4;
-    lexeme_amount++;
-  }
-}
-
-void Model::InputStringParsing::CaseSqrt() {
-  if (lexeme_amount != 0) {
-    if (lexemes_[lexeme_amount - 1].type == OPEN_BRACKET ||
-        lexemes_[lexeme_amount - 1].type == BINARY_MINUS ||
-        lexemes_[lexeme_amount - 1].type == UNARY_MINUS ||
-        lexemes_[lexeme_amount - 1].type == BINARY_PLUS ||
-        lexemes_[lexeme_amount - 1].type == UNARY_MINUS ||
-        lexemes_[lexeme_amount - 1].type == MUL ||
-        lexemes_[lexeme_amount - 1].type == DIV ||
-        lexemes_[lexeme_amount - 1].type == POW ||
-        lexemes_[lexeme_amount - 1].type == MOD) {
-      lexemes_[lexeme_amount].type = SQRT;
-      lexemes_[lexeme_amount].priority = 4;
-      lexeme_amount++;
-    } else {
-      return_value_ = false;
-    }
-  } else {
-    lexemes_[lexeme_amount].type = SQRT;
-    lexemes_[lexeme_amount].priority = 4;
-    lexeme_amount++;
-  }
-}
-
-void Model::InputStringParsing::CaseCos() {
-  if (lexeme_amount != 0) {
-    if (lexemes_[lexeme_amount - 1].type == OPEN_BRACKET ||
-        lexemes_[lexeme_amount - 1].type == BINARY_MINUS ||
-        lexemes_[lexeme_amount - 1].type == UNARY_MINUS ||
-        lexemes_[lexeme_amount - 1].type == BINARY_PLUS ||
-        lexemes_[lexeme_amount - 1].type == UNARY_MINUS ||
-        lexemes_[lexeme_amount - 1].type == MUL ||
-        lexemes_[lexeme_amount - 1].type == DIV ||
-        lexemes_[lexeme_amount - 1].type == POW ||
-        lexemes_[lexeme_amount - 1].type == MOD) {
-      lexemes_[lexeme_amount].type = COS;
-      lexemes_[lexeme_amount].priority = 4;
-      lexeme_amount++;
-    } else {
-      return_value_ = false;
-    }
-  } else {
-    lexemes_[lexeme_amount].type = COS;
-    lexemes_[lexeme_amount].priority = 4;
-    lexeme_amount++;
-  }
-}
-
-void Model::InputStringParsing::CaseTan() {
-  if (lexeme_amount != 0) {
-    if (lexemes_[lexeme_amount - 1].type == OPEN_BRACKET ||
-        lexemes_[lexeme_amount - 1].type == BINARY_MINUS ||
-        lexemes_[lexeme_amount - 1].type == UNARY_MINUS ||
-        lexemes_[lexeme_amount - 1].type == BINARY_PLUS ||
-        lexemes_[lexeme_amount - 1].type == UNARY_MINUS ||
-        lexemes_[lexeme_amount - 1].type == MUL ||
-        lexemes_[lexeme_amount - 1].type == DIV ||
-        lexemes_[lexeme_amount - 1].type == POW ||
-        lexemes_[lexeme_amount - 1].type == MOD) {
-      lexemes_[lexeme_amount].type = TAN;
-      lexemes_[lexeme_amount].priority = 4;
-      lexeme_amount++;
-    } else {
-      return_value_ = false;
-    }
-  } else {
-    lexemes_[lexeme_amount].type = TAN;
-    lexemes_[lexeme_amount].priority = 4;
-    lexeme_amount++;
-  }
-}
-
-void Model::InputStringParsing::CaseMod() {
-  if (lexeme_amount != 0) {
-    if (lexemes_[lexeme_amount - 1].type == NUMBER ||
-        lexemes_[lexeme_amount - 1].type == VARIABLE ||
-        lexemes_[lexeme_amount - 1].type == CLOSE_BRACKET) {
-      lexemes_[lexeme_amount].type = MOD;
-      lexemes_[lexeme_amount].priority = 2;
-      lexeme_amount++;
+void Model::InputStringParsing::Pow() {
+  if (lexeme_count != 0) {
+    if (lexemes_[lexeme_count - 1].type == NUMBER ||
+        lexemes_[lexeme_count - 1].type == VARIABLE ||
+        lexemes_[lexeme_count - 1].type == CLOSE_BRACKET) {
+      lexemes_[lexeme_count].type = POW;
+      lexemes_[lexeme_count].priority = 3;
+      lexeme_count++;
     } else {
       return_value_ = false;
     }
@@ -523,137 +388,272 @@ void Model::InputStringParsing::CaseMod() {
   }
 }
 
-void Model::InputStringParsing::CaseAsin() {
-  if (lexeme_amount != 0) {
-    if (lexemes_[lexeme_amount - 1].type == OPEN_BRACKET ||
-        lexemes_[lexeme_amount - 1].type == BINARY_MINUS ||
-        lexemes_[lexeme_amount - 1].type == UNARY_MINUS ||
-        lexemes_[lexeme_amount - 1].type == BINARY_PLUS ||
-        lexemes_[lexeme_amount - 1].type == UNARY_MINUS ||
-        lexemes_[lexeme_amount - 1].type == MUL ||
-        lexemes_[lexeme_amount - 1].type == DIV ||
-        lexemes_[lexeme_amount - 1].type == POW ||
-        lexemes_[lexeme_amount - 1].type == MOD) {
-      lexemes_[lexeme_amount].type = ASIN;
-      lexemes_[lexeme_amount].priority = 4;
-      lexeme_amount++;
+void Model::InputStringParsing::X() {
+  if (lexeme_count != 0) {
+    if (lexemes_[lexeme_count - 1].type == OPEN_BRACKET ||
+        lexemes_[lexeme_count - 1].type == UNARY_PLUS ||
+        lexemes_[lexeme_count - 1].type == BINARY_PLUS ||
+        lexemes_[lexeme_count - 1].type == UNARY_MINUS ||
+        lexemes_[lexeme_count - 1].type == BINARY_MINUS ||
+        lexemes_[lexeme_count - 1].type == MUL ||
+        lexemes_[lexeme_count - 1].type == DIV ||
+        lexemes_[lexeme_count - 1].type == POW ||
+        lexemes_[lexeme_count - 1].type == MOD) {
+      lexemes_[lexeme_count].type = VARIABLE;
+      lexemes_[lexeme_count].priority = -1;
+      lexeme_count++;
     } else {
       return_value_ = false;
     }
   } else {
-    lexemes_[lexeme_amount].type = ASIN;
-    lexemes_[lexeme_amount].priority = 4;
-    lexeme_amount++;
+    lexemes_[lexeme_count].type = VARIABLE;
+    lexeme_count++;
   }
 }
 
-void Model::InputStringParsing::CaseAcos() {
-  if (lexeme_amount != 0) {
-    if (lexemes_[lexeme_amount - 1].type == OPEN_BRACKET ||
-        lexemes_[lexeme_amount - 1].type == BINARY_MINUS ||
-        lexemes_[lexeme_amount - 1].type == UNARY_MINUS ||
-        lexemes_[lexeme_amount - 1].type == BINARY_PLUS ||
-        lexemes_[lexeme_amount - 1].type == UNARY_MINUS ||
-        lexemes_[lexeme_amount - 1].type == MUL ||
-        lexemes_[lexeme_amount - 1].type == DIV ||
-        lexemes_[lexeme_amount - 1].type == POW ||
-        lexemes_[lexeme_amount - 1].type == MOD) {
-      lexemes_[lexeme_amount].type = ACOS;
-      lexemes_[lexeme_amount].priority = 4;
-      lexeme_amount++;
+void Model::InputStringParsing::Sin() {
+  if (lexeme_count != 0) {
+    if (lexemes_[lexeme_count - 1].type == OPEN_BRACKET ||
+        lexemes_[lexeme_count - 1].type == BINARY_MINUS ||
+        lexemes_[lexeme_count - 1].type == UNARY_MINUS ||
+        lexemes_[lexeme_count - 1].type == BINARY_PLUS ||
+        lexemes_[lexeme_count - 1].type == UNARY_MINUS ||
+        lexemes_[lexeme_count - 1].type == MUL ||
+        lexemes_[lexeme_count - 1].type == DIV ||
+        lexemes_[lexeme_count - 1].type == POW ||
+        lexemes_[lexeme_count - 1].type == MOD) {
+      lexemes_[lexeme_count].type = SIN;
+      lexemes_[lexeme_count].priority = 4;
+      lexeme_count++;
     } else {
       return_value_ = false;
     }
   } else {
-    lexemes_[lexeme_amount].type = ACOS;
-    lexemes_[lexeme_amount].priority = 4;
-    lexeme_amount++;
+    lexemes_[lexeme_count].type = SIN;
+    lexemes_[lexeme_count].priority = 4;
+    lexeme_count++;
   }
 }
 
-void Model::InputStringParsing::CaseAtan() {
-  if (lexeme_amount != 0) {
-    if (lexemes_[lexeme_amount - 1].type == OPEN_BRACKET ||
-        lexemes_[lexeme_amount - 1].type == BINARY_MINUS ||
-        lexemes_[lexeme_amount - 1].type == UNARY_MINUS ||
-        lexemes_[lexeme_amount - 1].type == BINARY_PLUS ||
-        lexemes_[lexeme_amount - 1].type == UNARY_MINUS ||
-        lexemes_[lexeme_amount - 1].type == MUL ||
-        lexemes_[lexeme_amount - 1].type == DIV ||
-        lexemes_[lexeme_amount - 1].type == POW ||
-        lexemes_[lexeme_amount - 1].type == MOD) {
-      lexemes_[lexeme_amount].type = ATAN;
-      lexemes_[lexeme_amount].priority = 4;
-      lexeme_amount++;
+void Model::InputStringParsing::Sqrt() {
+  if (lexeme_count != 0) {
+    if (lexemes_[lexeme_count - 1].type == OPEN_BRACKET ||
+        lexemes_[lexeme_count - 1].type == BINARY_MINUS ||
+        lexemes_[lexeme_count - 1].type == UNARY_MINUS ||
+        lexemes_[lexeme_count - 1].type == BINARY_PLUS ||
+        lexemes_[lexeme_count - 1].type == UNARY_MINUS ||
+        lexemes_[lexeme_count - 1].type == MUL ||
+        lexemes_[lexeme_count - 1].type == DIV ||
+        lexemes_[lexeme_count - 1].type == POW ||
+        lexemes_[lexeme_count - 1].type == MOD) {
+      lexemes_[lexeme_count].type = SQRT;
+      lexemes_[lexeme_count].priority = 4;
+      lexeme_count++;
     } else {
       return_value_ = false;
     }
   } else {
-    lexemes_[lexeme_amount].type = ATAN;
-    lexemes_[lexeme_amount].priority = 4;
-    lexeme_amount++;
+    lexemes_[lexeme_count].type = SQRT;
+    lexemes_[lexeme_count].priority = 4;
+    lexeme_count++;
   }
 }
 
-void Model::InputStringParsing::CaseLn() {
-  if (lexeme_amount != 0) {
-    if (lexemes_[lexeme_amount - 1].type == OPEN_BRACKET ||
-        lexemes_[lexeme_amount - 1].type == BINARY_MINUS ||
-        lexemes_[lexeme_amount - 1].type == UNARY_MINUS ||
-        lexemes_[lexeme_amount - 1].type == BINARY_PLUS ||
-        lexemes_[lexeme_amount - 1].type == UNARY_MINUS ||
-        lexemes_[lexeme_amount - 1].type == MUL ||
-        lexemes_[lexeme_amount - 1].type == DIV ||
-        lexemes_[lexeme_amount - 1].type == POW ||
-        lexemes_[lexeme_amount - 1].type == MOD) {
-      lexemes_[lexeme_amount].type = LN;
-      lexemes_[lexeme_amount].priority = 4;
-      lexeme_amount++;
+void Model::InputStringParsing::Cos() {
+  if (lexeme_count != 0) {
+    if (lexemes_[lexeme_count - 1].type == OPEN_BRACKET ||
+        lexemes_[lexeme_count - 1].type == BINARY_MINUS ||
+        lexemes_[lexeme_count - 1].type == UNARY_MINUS ||
+        lexemes_[lexeme_count - 1].type == BINARY_PLUS ||
+        lexemes_[lexeme_count - 1].type == UNARY_MINUS ||
+        lexemes_[lexeme_count - 1].type == MUL ||
+        lexemes_[lexeme_count - 1].type == DIV ||
+        lexemes_[lexeme_count - 1].type == POW ||
+        lexemes_[lexeme_count - 1].type == MOD) {
+      lexemes_[lexeme_count].type = COS;
+      lexemes_[lexeme_count].priority = 4;
+      lexeme_count++;
     } else {
       return_value_ = false;
     }
   } else {
-    lexemes_[lexeme_amount].type = LN;
-    lexemes_[lexeme_amount].priority = 4;
-    lexeme_amount++;
+    lexemes_[lexeme_count].type = COS;
+    lexemes_[lexeme_count].priority = 4;
+    lexeme_count++;
   }
 }
 
-void Model::InputStringParsing::CaseLog() {
-  if (lexeme_amount != 0) {
-    if (lexemes_[lexeme_amount - 1].type == OPEN_BRACKET ||
-        lexemes_[lexeme_amount - 1].type == BINARY_MINUS ||
-        lexemes_[lexeme_amount - 1].type == UNARY_MINUS ||
-        lexemes_[lexeme_amount - 1].type == BINARY_PLUS ||
-        lexemes_[lexeme_amount - 1].type == UNARY_MINUS ||
-        lexemes_[lexeme_amount - 1].type == MUL ||
-        lexemes_[lexeme_amount - 1].type == DIV ||
-        lexemes_[lexeme_amount - 1].type == POW ||
-        lexemes_[lexeme_amount - 1].type == MOD) {
-      lexemes_[lexeme_amount].type = LOG;
-      lexemes_[lexeme_amount].priority = 4;
-      lexeme_amount++;
+void Model::InputStringParsing::Tan() {
+  if (lexeme_count != 0) {
+    if (lexemes_[lexeme_count - 1].type == OPEN_BRACKET ||
+        lexemes_[lexeme_count - 1].type == BINARY_MINUS ||
+        lexemes_[lexeme_count - 1].type == UNARY_MINUS ||
+        lexemes_[lexeme_count - 1].type == BINARY_PLUS ||
+        lexemes_[lexeme_count - 1].type == UNARY_MINUS ||
+        lexemes_[lexeme_count - 1].type == MUL ||
+        lexemes_[lexeme_count - 1].type == DIV ||
+        lexemes_[lexeme_count - 1].type == POW ||
+        lexemes_[lexeme_count - 1].type == MOD) {
+      lexemes_[lexeme_count].type = TAN;
+      lexemes_[lexeme_count].priority = 4;
+      lexeme_count++;
     } else {
       return_value_ = false;
     }
   } else {
-    lexemes_[lexeme_amount].type = LOG;
-    lexemes_[lexeme_amount].priority = 4;
-    lexeme_amount++;
+    lexemes_[lexeme_count].type = TAN;
+    lexemes_[lexeme_count].priority = 4;
+    lexeme_count++;
   }
 }
 
-void Model::InputStringParsing::CaseNumber() {
-  if (((lexeme_amount != 0) &&
-       (lexemes_[lexeme_amount - 1].type == OPEN_BRACKET ||
-        lexemes_[lexeme_amount - 1].type == UNARY_PLUS ||
-        lexemes_[lexeme_amount - 1].type == BINARY_PLUS ||
-        lexemes_[lexeme_amount - 1].type == UNARY_MINUS ||
-        lexemes_[lexeme_amount - 1].type == BINARY_MINUS ||
-        lexemes_[lexeme_amount - 1].type == MUL ||
-        lexemes_[lexeme_amount - 1].type == DIV ||
-        lexemes_[lexeme_amount - 1].type == POW ||
-        lexemes_[lexeme_amount - 1].type == MOD)) ||
+void Model::InputStringParsing::Mod() {
+  if (lexeme_count != 0) {
+    if (lexemes_[lexeme_count - 1].type == NUMBER ||
+        lexemes_[lexeme_count - 1].type == VARIABLE ||
+        lexemes_[lexeme_count - 1].type == CLOSE_BRACKET) {
+      lexemes_[lexeme_count].type = MOD;
+      lexemes_[lexeme_count].priority = 2;
+      lexeme_count++;
+    } else {
+      return_value_ = false;
+    }
+  } else {
+    return_value_ = false;
+  }
+}
+
+void Model::InputStringParsing::Asin() {
+  if (lexeme_count != 0) {
+    if (lexemes_[lexeme_count - 1].type == OPEN_BRACKET ||
+        lexemes_[lexeme_count - 1].type == BINARY_MINUS ||
+        lexemes_[lexeme_count - 1].type == UNARY_MINUS ||
+        lexemes_[lexeme_count - 1].type == BINARY_PLUS ||
+        lexemes_[lexeme_count - 1].type == UNARY_MINUS ||
+        lexemes_[lexeme_count - 1].type == MUL ||
+        lexemes_[lexeme_count - 1].type == DIV ||
+        lexemes_[lexeme_count - 1].type == POW ||
+        lexemes_[lexeme_count - 1].type == MOD) {
+      lexemes_[lexeme_count].type = ASIN;
+      lexemes_[lexeme_count].priority = 4;
+      lexeme_count++;
+    } else {
+      return_value_ = false;
+    }
+  } else {
+    lexemes_[lexeme_count].type = ASIN;
+    lexemes_[lexeme_count].priority = 4;
+    lexeme_count++;
+  }
+}
+
+void Model::InputStringParsing::Acos() {
+  if (lexeme_count != 0) {
+    if (lexemes_[lexeme_count - 1].type == OPEN_BRACKET ||
+        lexemes_[lexeme_count - 1].type == BINARY_MINUS ||
+        lexemes_[lexeme_count - 1].type == UNARY_MINUS ||
+        lexemes_[lexeme_count - 1].type == BINARY_PLUS ||
+        lexemes_[lexeme_count - 1].type == UNARY_MINUS ||
+        lexemes_[lexeme_count - 1].type == MUL ||
+        lexemes_[lexeme_count - 1].type == DIV ||
+        lexemes_[lexeme_count - 1].type == POW ||
+        lexemes_[lexeme_count - 1].type == MOD) {
+      lexemes_[lexeme_count].type = ACOS;
+      lexemes_[lexeme_count].priority = 4;
+      lexeme_count++;
+    } else {
+      return_value_ = false;
+    }
+  } else {
+    lexemes_[lexeme_count].type = ACOS;
+    lexemes_[lexeme_count].priority = 4;
+    lexeme_count++;
+  }
+}
+
+void Model::InputStringParsing::Atan() {
+  if (lexeme_count != 0) {
+    if (lexemes_[lexeme_count - 1].type == OPEN_BRACKET ||
+        lexemes_[lexeme_count - 1].type == BINARY_MINUS ||
+        lexemes_[lexeme_count - 1].type == UNARY_MINUS ||
+        lexemes_[lexeme_count - 1].type == BINARY_PLUS ||
+        lexemes_[lexeme_count - 1].type == UNARY_MINUS ||
+        lexemes_[lexeme_count - 1].type == MUL ||
+        lexemes_[lexeme_count - 1].type == DIV ||
+        lexemes_[lexeme_count - 1].type == POW ||
+        lexemes_[lexeme_count - 1].type == MOD) {
+      lexemes_[lexeme_count].type = ATAN;
+      lexemes_[lexeme_count].priority = 4;
+      lexeme_count++;
+    } else {
+      return_value_ = false;
+    }
+  } else {
+    lexemes_[lexeme_count].type = ATAN;
+    lexemes_[lexeme_count].priority = 4;
+    lexeme_count++;
+  }
+}
+
+void Model::InputStringParsing::Ln() {
+  if (lexeme_count != 0) {
+    if (lexemes_[lexeme_count - 1].type == OPEN_BRACKET ||
+        lexemes_[lexeme_count - 1].type == BINARY_MINUS ||
+        lexemes_[lexeme_count - 1].type == UNARY_MINUS ||
+        lexemes_[lexeme_count - 1].type == BINARY_PLUS ||
+        lexemes_[lexeme_count - 1].type == UNARY_MINUS ||
+        lexemes_[lexeme_count - 1].type == MUL ||
+        lexemes_[lexeme_count - 1].type == DIV ||
+        lexemes_[lexeme_count - 1].type == POW ||
+        lexemes_[lexeme_count - 1].type == MOD) {
+      lexemes_[lexeme_count].type = LN;
+      lexemes_[lexeme_count].priority = 4;
+      lexeme_count++;
+    } else {
+      return_value_ = false;
+    }
+  } else {
+    lexemes_[lexeme_count].type = LN;
+    lexemes_[lexeme_count].priority = 4;
+    lexeme_count++;
+  }
+}
+
+void Model::InputStringParsing::Log() {
+  if (lexeme_count != 0) {
+    if (lexemes_[lexeme_count - 1].type == OPEN_BRACKET ||
+        lexemes_[lexeme_count - 1].type == BINARY_MINUS ||
+        lexemes_[lexeme_count - 1].type == UNARY_MINUS ||
+        lexemes_[lexeme_count - 1].type == BINARY_PLUS ||
+        lexemes_[lexeme_count - 1].type == UNARY_MINUS ||
+        lexemes_[lexeme_count - 1].type == MUL ||
+        lexemes_[lexeme_count - 1].type == DIV ||
+        lexemes_[lexeme_count - 1].type == POW ||
+        lexemes_[lexeme_count - 1].type == MOD) {
+      lexemes_[lexeme_count].type = LOG;
+      lexemes_[lexeme_count].priority = 4;
+      lexeme_count++;
+    } else {
+      return_value_ = false;
+    }
+  } else {
+    lexemes_[lexeme_count].type = LOG;
+    lexemes_[lexeme_count].priority = 4;
+    lexeme_count++;
+  }
+}
+
+void Model::InputStringParsing::Number() {
+  if (((lexeme_count != 0) &&
+       (lexemes_[lexeme_count - 1].type == OPEN_BRACKET ||
+        lexemes_[lexeme_count - 1].type == UNARY_PLUS ||
+        lexemes_[lexeme_count - 1].type == BINARY_PLUS ||
+        lexemes_[lexeme_count - 1].type == UNARY_MINUS ||
+        lexemes_[lexeme_count - 1].type == BINARY_MINUS ||
+        lexemes_[lexeme_count - 1].type == MUL ||
+        lexemes_[lexeme_count - 1].type == DIV ||
+        lexemes_[lexeme_count - 1].type == POW ||
+        lexemes_[lexeme_count - 1].type == MOD)) ||
       input_count == 0) {
     char* massive_for_number = new char[SIZE]{'\0'};
     massive_for_number[0] = input_[input_count];
@@ -697,10 +697,10 @@ void Model::InputStringParsing::CaseNumber() {
     }
     if (return_value_) {
       input_count -= 1;
-      lexemes_[lexeme_amount].type = NUMBER;
-      lexemes_[lexeme_amount].priority = -1;
-      lexemes_[lexeme_amount].value = atof(massive_for_number);
-      lexeme_amount++;
+      lexemes_[lexeme_count].type = NUMBER;
+      lexemes_[lexeme_count].priority = -1;
+      lexemes_[lexeme_count].value = atof(massive_for_number);
+      lexeme_count++;
     }
     delete[] massive_for_number;
   } else {
@@ -710,29 +710,29 @@ void Model::InputStringParsing::CaseNumber() {
 
 void Model::InputStringParsing::FinalCheck() {
   if (return_value_) {
-    if (lexemes_[lexeme_amount - 1].type == OPEN_BRACKET ||
-        lexemes_[lexeme_amount - 1].type == UNARY_PLUS ||
-        lexemes_[lexeme_amount - 1].type == UNARY_MINUS ||
-        lexemes_[lexeme_amount - 1].type == BINARY_MINUS ||
-        lexemes_[lexeme_amount - 1].type == BINARY_PLUS ||
-        lexemes_[lexeme_amount - 1].type == MUL ||
-        lexemes_[lexeme_amount - 1].type == DIV ||
-        lexemes_[lexeme_amount - 1].type == POW ||
-        lexemes_[lexeme_amount - 1].type == MOD ||
-        lexemes_[lexeme_amount - 1].type == COS ||
-        lexemes_[lexeme_amount - 1].type == SIN ||
-        lexemes_[lexeme_amount - 1].type == TAN ||
-        lexemes_[lexeme_amount - 1].type == ACOS ||
-        lexemes_[lexeme_amount - 1].type == ASIN ||
-        lexemes_[lexeme_amount - 1].type == ATAN ||
-        lexemes_[lexeme_amount - 1].type == SQRT ||
-        lexemes_[lexeme_amount - 1].type == LN ||
-        lexemes_[lexeme_amount - 1].type == LOG)
+    if (lexemes_[lexeme_count - 1].type == OPEN_BRACKET ||
+        lexemes_[lexeme_count - 1].type == UNARY_PLUS ||
+        lexemes_[lexeme_count - 1].type == UNARY_MINUS ||
+        lexemes_[lexeme_count - 1].type == BINARY_MINUS ||
+        lexemes_[lexeme_count - 1].type == BINARY_PLUS ||
+        lexemes_[lexeme_count - 1].type == MUL ||
+        lexemes_[lexeme_count - 1].type == DIV ||
+        lexemes_[lexeme_count - 1].type == POW ||
+        lexemes_[lexeme_count - 1].type == MOD ||
+        lexemes_[lexeme_count - 1].type == COS ||
+        lexemes_[lexeme_count - 1].type == SIN ||
+        lexemes_[lexeme_count - 1].type == TAN ||
+        lexemes_[lexeme_count - 1].type == ACOS ||
+        lexemes_[lexeme_count - 1].type == ASIN ||
+        lexemes_[lexeme_count - 1].type == ATAN ||
+        lexemes_[lexeme_count - 1].type == SQRT ||
+        lexemes_[lexeme_count - 1].type == LN ||
+        lexemes_[lexeme_count - 1].type == LOG)
       return_value_ = false;
 
     if (bracket_count != 0) return_value_ = false;
 
-    if (input_count == 0 && lexeme_amount == 0) return_value_ = false;
+    if (input_count == 0 && lexeme_count == 0) return_value_ = false;
   }
 }
 
