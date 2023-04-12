@@ -7,7 +7,6 @@ bool Model::MainFunction(const char* input_expression, const char* input_express
     InputStringParsing input_string_parsing_obj(input_expression);
     if (return_value) {
         return_value = input_string_parsing_obj.Parsing();
-
         if (return_value) {
             long double x;
             bool x_correctness = false;
@@ -24,7 +23,6 @@ bool Model::MainFunction(const char* input_expression, const char* input_express
                     input_string_parsing_obj.lexemes_[i].value = x;
                 }
             }
-
             if (return_value) {
                 return_value = MainCalculation(input_string_parsing_obj);
             }
@@ -858,7 +856,6 @@ bool Model::CheckDoubleCorrectness(const char* input_expr_x, long double& x) {
     if (return_value) {
         x = atof(input_expr_x);
     }
-
     return return_value;
 }
 

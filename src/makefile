@@ -1,8 +1,4 @@
-APP = build/SmartCalc.app
-BACKEND_FILES = s21_smartcalc.c;
-BACKEND_FILES_O = s21_smartcalc.o
-
-CC+FLAGS = g++ -std=c++17 -Wall -Wextra -Werror -lgtest_main
+CCFLAGS = g++ -std=c++17 -Wall -Wextra -Werror -lgtest_main
 GCOVFLAGS = -L. --coverage -ls21_smartcalc
 OS = $(shell uname)
 ifeq ($(OS), Linux)
@@ -28,15 +24,15 @@ dist:
 	cp Makefile *.cpp *.h *.pro *.ui *.user* Archive_SmartCalc_v1.0/src/
 	tar cvzf Archive_SmartCalc_v1.0.tgz Archive_SmartCalc_v1.0/
 	mv Archive_SmartCalc_v1.0.tgz $(HOME)/Desktop/
-	rm -rf Archive_SmartCalc_v1.0/
+	# rm -rf Archive_SmartCalc_v1.0/
 
 test: s21_smartcalc.a
-	$(CC+FLAGS) unit_tests/unit_tests.cc s21_smartcalc.a $(GTEST_FLAGS) -L. -ls21_smartcalc
+	$(CCFLAGS) unit_tests/unit_tests.cc s21_smartcalc.a $(GTEST_FLAGS) -L. -ls21_smartcalc
 	./a.out
 
 gcov_report: test
 	rm -f *.g*
-	$(CC+FLAGS) unit_tests/unit_tests.cc Model/model.cpp Controller/controller.cpp $(GTEST_FLAGS) $(GCOVFLAGS)
+	$(CCFLAGS) unit_tests/unit_tests.cc Model/model.cpp Controller/controller.cpp $(GTEST_FLAGS) $(GCOVFLAGS)
 	./a.out
 	lcov -t a.out -o rep.info --no-external -c -d .
 	genhtml -o report rep.info
@@ -51,7 +47,7 @@ s21_smartcalc.a: s21_smartcalc.o
 	cp libs21_smartcalc.a ls21_smartcalc.a
 
 s21_smartcalc.o:
-	$(CC+FLAGS) -c unit_tests/unit_tests.cc Model/model.cpp Controller/controller.cpp
+	$(CCFLAGS) -c unit_tests/unit_tests.cc Model/model.cpp Controller/controller.cpp
 
 check: test
 	CK_FORK=no leaks --atExit -- ./a.out
@@ -61,5 +57,3 @@ clean: uninstall
 	build-SmartCalc-Desktop_x86_darwin_generic_mach_o_64bit-Debug
 
 rebuild: clean uninstall all
-
-reinstall: clean uninstall install

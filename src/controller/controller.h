@@ -6,8 +6,8 @@
 namespace s21 {
 class Controller {
 private:
-    Model* model_;
-    long double result_;
+    Model* model;
+    long double result;
 
 public:
     Controller();
