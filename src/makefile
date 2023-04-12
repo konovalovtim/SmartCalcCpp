@@ -21,7 +21,7 @@ dist:
 	rm -rf Archive_SmartCalc_v1.0/
 	mkdir Archive_SmartCalc_v1.0/
 	mkdir Archive_SmartCalc_v1.0/src
-	cp Makefile *.cpp *.h *.pro *.ui *.user* Archive_SmartCalc_v1.0/src/
+	cp Makefile *.cc *.h *.pro *.ui *.user* Archive_SmartCalc_v1.0/src/
 	tar cvzf Archive_SmartCalc_v1.0.tgz Archive_SmartCalc_v1.0/
 	mv Archive_SmartCalc_v1.0.tgz $(HOME)/Desktop/
 	# rm -rf Archive_SmartCalc_v1.0/
@@ -32,7 +32,7 @@ test: s21_smartcalc.a
 
 gcov_report: test
 	rm -f *.g*
-	$(CCFLAGS) unit_tests/unit_tests.cc Model/model.cpp Controller/controller.cpp $(GTEST_FLAGS) $(GCOVFLAGS)
+	$(CCFLAGS) unit_tests/unit_tests.cc Model/model.cc Controller/controller.cc $(GTEST_FLAGS) $(GCOVFLAGS)
 	./a.out
 	lcov -t a.out -o rep.info --no-external -c -d .
 	genhtml -o report rep.info
@@ -47,10 +47,13 @@ s21_smartcalc.a: s21_smartcalc.o
 	cp libs21_smartcalc.a ls21_smartcalc.a
 
 s21_smartcalc.o:
-	$(CCFLAGS) -c unit_tests/unit_tests.cc Model/model.cpp Controller/controller.cpp
+	$(CCFLAGS) -c unit_tests/unit_tests.cc Model/model.cc Controller/controller.cc
 
 check: test
 	CK_FORK=no leaks --atExit -- ./a.out
+
+style:
+	@clang-format -style=google -n Controller/*.cc Controller/*.h Model/*.cc Model/*.h View/*.cc View/*.h
 
 clean: uninstall
 	rm -rf *.o *.a *.gcda *.gcno *.info s21_test report s21_calc s21_test a.out \

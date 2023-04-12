@@ -6,124 +6,118 @@
 
 #include <stack>
 #include <vector>
+#define SIZE 255
 
 namespace s21 {
-const int ALLOCATED_SIZE = 256;
-
+bool IsNumber(char c);
 class Model {
-private:
-    struct Lexeme {
-        long double value;
-        int priority;
-        int type;
-    };
+ public:
+  bool Input(const char* input, const char* input_x);
+  bool Input(const char* input, long double x);
+  bool CheckGraphicParameters(const char* x_min_char_str,
+                              const char* x_max_char_str,
+                              const char* y_min_char_str,
+                              const char* y_max_char_str,
+                              const char* step_char_str, long double& x_min,
+                              long double& x_max, long double& y_min,
+                              long double& y_max, long double& step);
+  long double GetResult() { return result_; }
 
-    enum Type {
-        NUMBER,         // 0
-        VARIABLE,       // 1
-        OPEN_BRACKET,   // 2
-        CLOSE_BRACKET,  // 3
-        UNARY_MINUS,    // 4
-        BINARY_MINUS,   // 5
-        UNARY_PLUS,     // 6
-        BINARY_PLUS,    // 7
-        MUL,            // 8
-        DIV,            // 9
-        POW,            // 10
-        MOD,            // 11
-        COS,            // 12
-        SIN,            // 13
-        TAN,            // 14
-        ACOS,           // 15
-        ASIN,           // 16
-        ATAN,           // 17
-        SQRT,           // 18
-        LN,             // 19
-        LOG             // 20
-    };
-
-    long double result_;
-
-    bool CheckDoubleCorrectness(const char* input_expr_x_, long double& x);
-
-    class InputStringParsing;
-
-    class ReversePolishNotationCalculation;
-
-    bool CheckStrlen(const char* input_expression);
-    bool MainCalculation(InputStringParsing& input_string_parsing_obj);
-
-public:
-    bool MainFunction(const char* input_expression, const char* input_expression_x);
-    bool MainFunction(const char* input_expression, long double x);
-    bool CheckGraphicParameters(const char* x_min_char_str, const char* x_max_char_str,
-                                const char* y_min_char_str, const char* y_max_char_str,
-                                const char* step_char_str, long double& x_min, long double& x_max,
-                                long double& y_min, long double& y_max, long double& step);
-    long double GetResult() { return result_; }
+ private:
+  struct Lexeme {
+    long double value;
+    int priority;
+    int type;
+  };
+  enum Type {
+    NUMBER,
+    VARIABLE,
+    OPEN_BRACKET,
+    CLOSE_BRACKET,
+    UNARY_MINUS,
+    BINARY_MINUS,
+    UNARY_PLUS,
+    BINARY_PLUS,
+    MUL,
+    DIV,
+    POW,
+    MOD,
+    COS,
+    SIN,
+    TAN,
+    ACOS,
+    ASIN,
+    ATAN,
+    SQRT,
+    LN,
+    LOG
+  };
+  long double result_;
+  bool CheckDoubleCorrectness(const char* input_expr_x_, long double& x);
+  class InputStringParsing;
+  class ReversePolishNotationCalculation;
+  bool CheckStrlen(const char* input);
+  bool Calculation(InputStringParsing& input_string_parsing_obj);
 };
 
 class Model::InputStringParsing {
-public:
-    std::vector<Lexeme> lexemes_;
+ public:
+  std::vector<Lexeme> lexemes_;
 
-    explicit InputStringParsing(const char* input_expression) {
-        return_value_ = true;
-        input_cnt_ = lex_amount_ = bracket_count_ = 0;
-        lexemes_.reserve(ALLOCATED_SIZE);
-        ClearMassiveForLexemes();
-        input_expression_ = input_expression;
-    }
-    bool Parsing();
-    void CaseOpenBracket();
-    void CaseCloseBracket();
-    void CaseMinus();
-    void CasePlus();
-    void CaseMul();
-    void CaseDiv();
-    void CasePow();
-    void CaseX();
-    void CaseSin();
-    void CaseSqrt();
-    void CaseCos();
-    void CaseTan();
-    void CaseMod();
-    void CaseAsin();
-    void CaseAcos();
-    void CaseAtan();
-    void CaseLn();
-    void CaseLog();
-    void CaseNumber();
-    void FinalCheck();
+  explicit InputStringParsing(const char* input) {
+    return_value_ = true;
+    input_count = lexeme_amount = bracket_count = 0;
+    lexemes_.reserve(SIZE);
+    ClearMassiveForLexemes();
+    input_ = input;
+  }
+  bool Parsing();
+  void CaseOpenBracket();
+  void CaseCloseBracket();
+  void CaseMinus();
+  void CasePlus();
+  void CaseMul();
+  void CaseDiv();
+  void CasePow();
+  void CaseX();
+  void CaseSin();
+  void CaseSqrt();
+  void CaseCos();
+  void CaseTan();
+  void CaseMod();
+  void CaseAsin();
+  void CaseAcos();
+  void CaseAtan();
+  void CaseLn();
+  void CaseLog();
+  void CaseNumber();
+  void FinalCheck();
 
-private:
-    bool return_value_;
-    int input_cnt_, lex_amount_, bracket_count_;
-    const char* input_expression_;
+ private:
+  bool return_value_;
+  int input_count, lexeme_amount, bracket_count;
+  const char* input_;
 
-    void ClearMassiveForLexemes();
+  void ClearMassiveForLexemes();
 };
 
 class Model::ReversePolishNotationCalculation {
-public:
-    ReversePolishNotationCalculation() {
-        stack_.reserve(ALLOCATED_SIZE);
-        output_.reserve(ALLOCATED_SIZE);
-        stack_cnt_ = output_amount_ = -1;
-    }
-    ~ReversePolishNotationCalculation() {}
-    void TranslateToRpn(std::vector<Lexeme>& lexemes_);
-    int IsOperator(Lexeme lexeme);
+ public:
+  ReversePolishNotationCalculation() {
+    stack_.reserve(SIZE);
+    output_.reserve(SIZE);
+    stack_cnt_ = output_amount_ = -1;
+  }
+  ~ReversePolishNotationCalculation() {}
+  void TranslateToRpn(std::vector<Lexeme>& lexemes_);
+  int IsOperator(Lexeme lexeme);
+  int ReversePolishNotationCalculator(long double& result);
 
-    int ReversePolishNotationCalculator(long double& result);
-
-private:
-    std::vector<Lexeme> stack_;
-    std::vector<Lexeme> output_;
-    int stack_cnt_, output_amount_;
+ private:
+  std::vector<Lexeme> stack_;
+  std::vector<Lexeme> output_;
+  int stack_cnt_, output_amount_;
 };
-
-bool IsNumber(char c);
-}
+}  // namespace s21
 
 #endif  // SRC_MODEL_H_

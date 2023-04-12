@@ -7,8 +7,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a53e97e4-8bee-4c04-a548-f46345c9112d" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/src/makefile" beforeDir="false" afterPath="$PROJECT_DIR$/src/makefile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tests.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/controller.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/controller.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -52,7 +52,7 @@
       <workItem from="1681210225130" duration="1223000" />
       <workItem from="1681214585272" duration="1286000" />
       <workItem from="1681216054522" duration="931000" />
-      <workItem from="1681217042248" duration="1000" />
+      <workItem from="1681217042248" duration="701000" />
     </task>
     <servers />
   </component>
