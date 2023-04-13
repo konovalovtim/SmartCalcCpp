@@ -140,26 +140,16 @@ bool Model::InputStringParsing::Menu() {
           input_count++;
           if (input_[input_count] == 'i') {
             input_count++;
-            if (input_[input_count] == 'n') {
-              Asin();
-            } else {
-              return_value_ = false;
-            }
-          } else {
-            return_value_ = false;
-          }
+            if (input_[input_count] == 'n') Asin();
+            else return_value_ = false;
+          } else return_value_ = false;
         } else if (input_[input_count] == 'c') {
           input_count++;
           if (input_[input_count] == 'o') {
             input_count++;
-            if (input_[input_count] == 's') {
-              Acos();
-            } else {
-              return_value_ = false;
-            }
-          } else {
-            return_value_ = false;
-          }
+            if (input_[input_count] == 's') Acos();
+            else  return_value_ = false;
+          } else return_value_ = false;
         } else if (input_[input_count] == 't') {
           input_count++;
           if (input_[input_count] == 'a') {
