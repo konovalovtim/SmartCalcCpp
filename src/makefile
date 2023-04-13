@@ -27,15 +27,6 @@ install:
 uninstall:
 	@rm -rf View/SmareCalc.app SmartCalc
 
-dist:
-	rm -rf Archive_SmartCalc_v1.0/
-	mkdir Archive_SmartCalc_v1.0/
-	mkdir Archive_SmartCalc_v1.0/src
-	cp Makefile *.cc *.h *.pro *.ui *.user* Archive_SmartCalc_v1.0/src/
-	tar cvzf Archive_SmartCalc_v1.0.tgz Archive_SmartCalc_v1.0/
-	mv Archive_SmartCalc_v1.0.tgz $(HOME)/Desktop/
-	# rm -rf Archive_SmartCalc_v1.0/
-
 test: s21_smartcalc.a
 	@$(CCFLAGS) unit_tests/unit_tests.cc s21_smartcalc.a $(GTEST_FLAGS) -L. -ls21_smartcalc
 	@./a.out
