@@ -31,6 +31,16 @@ test: s21_smartcalc.a
 	@$(CCFLAGS) unit_tests/unit_tests.cc s21_smartcalc.a $(GTEST_FLAGS) -L. -ls21_smartcalc
 	@./a.out
 
+dvi: clean
+	@doxygen conf && mv html documentation
+	@open documentation/index.html
+
+dist: clean
+	@mkdir SmartCalc
+	@cp -r Controller/*.cc Controller/*.h Model/*.cc Model/*.h View/*.cc View/*.h View/*.ui View/*.pro Makefile unit_tests/ SmartCalc
+	@tar -cvzf dist.tar.gz SmartCalc
+	@-rm -rf SmartCalc
+
 gcov_report: test
 	@echo "Please wait..."
 	@rm -f *.g*
@@ -49,6 +59,6 @@ style:
 	@clang-format -style=google -n Controller/*.cc Controller/*.h Model/*.cc Model/*.h View/*.cc View/*.h
 
 clean: uninstall
-	@rm -rf *.o *.a *.gcda *.gcno *.info s21_test report s21_calc s21_test a.out
+	@rm -rf View/*.o View/*.tmp *.a *.gcda *.gcno *.gz *.info documentation html s21_test report s21_calc s21_test a.out
 
 rebuild: clean uninstall all
