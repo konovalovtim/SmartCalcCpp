@@ -34906,51 +34906,39 @@ void QCPPolarGraph::getOptimizedLineData(
                                              // range to avoid line thicknesses
                                              // to peek into visible circle
   const double lowerClipValue =
-      range.lower -
-      (reversed ? range.size() * 0.05 + clipMargin
-                : 0);  
-                       
+      range.lower - (reversed ? range.size() * 0.05 + clipMargin : 0);
+
   const double maxKeySkip =
       qAsin(qSqrt(clipMargin * (clipMargin + 2 * range.size())) /
             (range.size() + clipMargin)) /
-      M_PI *
-      mKeyAxis->range()
-          .size(); 
-                   
-                   
+      M_PI * mKeyAxis->range().size();
+
   double skipBegin = 0;
   bool belowRange = false;
   bool aboveRange = false;
   QCPGraphDataContainer::const_iterator it = begin;
   while (it != end) {
     if (it->value < lowerClipValue) {
-      if (aboveRange)  
-                       
-                       
+      if (aboveRange)
+
       {
         aboveRange = false;
-        if (!reversed)  
-                        
-          lineData->append(*(it - 1));
+        if (!reversed) lineData->append(*(it - 1));
       }
       if (!belowRange) {
         skipBegin = it->key;
         lineData->append(QCPGraphData(it->key, lowerClipValue));
         belowRange = true;
       }
-      if (it->key - skipBegin >
-          maxKeySkip) 
-                      
-                      
+      if (it->key - skipBegin > maxKeySkip)
+
       {
         skipBegin += maxKeySkip;
         lineData->append(QCPGraphData(skipBegin, lowerClipValue));
       }
     } else if (it->value > upperClipValue) {
-      if (belowRange)  
-                       
-                       
-                       
+      if (belowRange)
+
       {
         belowRange = false;
         if (reversed) lineData->append(*(it - 1));
@@ -34960,31 +34948,20 @@ void QCPPolarGraph::getOptimizedLineData(
         lineData->append(QCPGraphData(it->key, upperClipValue));
         aboveRange = true;
       }
-      if (it->key - skipBegin >
-          maxKeySkip) 
-                      
-                      
+      if (it->key - skipBegin > maxKeySkip)
+
       {
         skipBegin += maxKeySkip;
         lineData->append(QCPGraphData(skipBegin, upperClipValue));
       }
-    } else 
-    {
+    } else {
       if (aboveRange) {
         aboveRange = false;
-        if (!reversed)
-          lineData->append(
-              *(it - 1));  
-                           
-                           
+        if (!reversed) lineData->append(*(it - 1));
       }
       if (belowRange) {
         belowRange = false;
-        if (reversed)
-          lineData->append(
-              *(it - 1)); 
-                          
-                          
+        if (reversed) lineData->append(*(it - 1));
       }
       lineData->append(*it);
     }
@@ -34992,17 +34969,11 @@ void QCPPolarGraph::getOptimizedLineData(
   }
   if (aboveRange) {
     aboveRange = false;
-    if (!reversed)
-      lineData->append(*(it - 1)); 
-                                   
-                                   
+    if (!reversed) lineData->append(*(it - 1));
   }
   if (belowRange) {
     belowRange = false;
-    if (reversed)
-      lineData->append(*(it - 1)); 
-                                   
-                                   
+    if (reversed) lineData->append(*(it - 1));
   }
 }
 

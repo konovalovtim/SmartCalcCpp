@@ -54,6 +54,7 @@ leaks: test
 	@CK_FORK=no leaks --atExit -- ./a.out
 
 style:
+	@echo "Please wait..."
 	@clang-format -style=google -n Controller/*.cc Controller/*.h Model/*.cc Model/*.h View/*.cc View/*.h
 
 clean: uninstall

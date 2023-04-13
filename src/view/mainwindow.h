@@ -55,7 +55,7 @@ class MainWindow : public QMainWindow {
   void on_pushButton_Graphics_clicked();
 
  private:
-  Ui::MainWindow *ui;
+  Ui::MainWindow *ui{};
   QVector<double> x, y;
 };
 #endif  // SRC_MAINWINDOW_H_

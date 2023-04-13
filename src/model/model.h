@@ -15,13 +15,11 @@ class Model {
  public:
   bool Input(const char* input, const char* input_x);
   bool Input(const char* input, long double x);
-  bool CheckGraph(const char* x_min_char_str,
-                              const char* x_max_char_str,
-                              const char* y_min_char_str,
-                              const char* y_max_char_str,
-                              const char* step_char_str, long double& x_min,
-                              long double& x_max, long double& y_min,
-                              long double& y_max, long double& step);
+  bool CheckGraph(const char* x_min_char_str, const char* x_max_char_str,
+                  const char* y_min_char_str, const char* y_max_char_str,
+                  const char* step_char_str, long double& x_min,
+                  long double& x_max, long double& y_min, long double& y_max,
+                  long double& step);
   long double GetResult() { return result_; }
 
  private:
