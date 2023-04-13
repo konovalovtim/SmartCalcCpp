@@ -254,7 +254,7 @@ TEST(test, 34) {
 TEST(test, 35) {
     Controller my_controller;
     long double x_min, x_max, y_min, y_max, step;
-    bool return_value = my_controller.CheckGraphicParameters(
+    bool return_value = my_controller.CheckGraph(
         "10", "-10", "10", "-10", "0.1", x_min, x_max, y_min, y_max, step);
     EXPECT_EQ(return_value, true);
 }
@@ -262,7 +262,7 @@ TEST(test, 35) {
 TEST(test, 36) {
     Controller my_controller;
     long double x_min, x_max, y_min, y_max, step;
-    bool return_value = my_controller.CheckGraphicParameters(
+    bool return_value = my_controller.CheckGraph(
         "2000000", "it's a char", "2000000", "-2000000", "0.1", x_min, x_max, y_min, y_max, step);
     EXPECT_EQ(return_value, false);
 }

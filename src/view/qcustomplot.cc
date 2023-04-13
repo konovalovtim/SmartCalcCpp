@@ -33689,12 +33689,6 @@ void QCPPolarAxisAngular::setLabelPadding(int padding) {
   }
 }
 
-/*!
-  Sets the font that is used for tick labels when they are selected.
-
-  \see setTickLabelFont, setSelectableParts, setSelectedParts,
-  QCustomPlot::setInteractions
-*/
 void QCPPolarAxisAngular::setSelectedTickLabelFont(const QFont &font) {
   if (font != mSelectedTickLabelFont) {
     mSelectedTickLabelFont = font;
@@ -33703,90 +33697,34 @@ void QCPPolarAxisAngular::setSelectedTickLabelFont(const QFont &font) {
   }
 }
 
-/*!
-  Sets the font that is used for the axis label when it is selected.
-
-  \see setLabelFont, setSelectableParts, setSelectedParts,
-  QCustomPlot::setInteractions
-*/
 void QCPPolarAxisAngular::setSelectedLabelFont(const QFont &font) {
   mSelectedLabelFont = font;
   // don't set mCachedMarginValid to false here because margin calculation is
   // always done with non-selected fonts
 }
 
-/*!
-  Sets the color that is used for tick labels when they are selected.
-
-  \see setTickLabelColor, setSelectableParts, setSelectedParts,
-  QCustomPlot::setInteractions
-*/
 void QCPPolarAxisAngular::setSelectedTickLabelColor(const QColor &color) {
   if (color != mSelectedTickLabelColor) {
     mSelectedTickLabelColor = color;
   }
 }
 
-/*!
-  Sets the color that is used for the axis label when it is selected.
-
-  \see setLabelColor, setSelectableParts, setSelectedParts,
-  QCustomPlot::setInteractions
-*/
 void QCPPolarAxisAngular::setSelectedLabelColor(const QColor &color) {
   mSelectedLabelColor = color;
 }
 
-/*!
-  Sets the pen that is used to draw the axis base line when selected.
-
-  \see setBasePen, setSelectableParts, setSelectedParts,
-  QCustomPlot::setInteractions
-*/
 void QCPPolarAxisAngular::setSelectedBasePen(const QPen &pen) {
   mSelectedBasePen = pen;
 }
 
-/*!
-  Sets the pen that is used to draw the (major) ticks when selected.
-
-  \see setTickPen, setSelectableParts, setSelectedParts,
-  QCustomPlot::setInteractions
-*/
 void QCPPolarAxisAngular::setSelectedTickPen(const QPen &pen) {
   mSelectedTickPen = pen;
 }
 
-/*!
-  Sets the pen that is used to draw the subticks when selected.
-
-  \see setSubTickPen, setSelectableParts, setSelectedParts,
-  QCustomPlot::setInteractions
-*/
 void QCPPolarAxisAngular::setSelectedSubTickPen(const QPen &pen) {
   mSelectedSubTickPen = pen;
 }
 
-/*! \internal
-
-  Draws the background of this axis rect. It may consist of a background fill (a
-  QBrush) and a pixmap.
-
-  If a brush was given via \ref setBackground(const QBrush &brush), this
-  function first draws an according filling inside the axis rect with the
-  provided \a painter.
-
-  Then, if a pixmap was provided via \ref setBackground, this function buffers
-  the scaled version depending on \ref setBackgroundScaled and \ref
-  setBackgroundScaledMode and then draws it inside the axis rect with the
-  provided \a painter. The scaled version is buffered in mScaledBackgroundPixmap
-  to prevent expensive rescaling at every redraw. It is only updated, when the
-  axis rect has changed in a way that requires a rescale of the background
-  pixmap (this is dependent on the \ref setBackgroundScaledMode), or when a
-  differend axis background pixmap was set.
-
-  \see setBackground, setBackgroundScaled, setBackgroundScaledMode
-*/
 void QCPPolarAxisAngular::drawBackground(QCPPainter *painter,
                                          const QPointF &center, double radius) {
   // draw background fill (don't use circular clip, looks bad):
@@ -33822,15 +33760,6 @@ void QCPPolarAxisAngular::drawBackground(QCPPainter *painter,
   }
 }
 
-/*! \internal
-
-  Prepares the internal tick vector, sub tick vector and tick label vector. This
-  is done by calling QCPAxisTicker::generate on the currently installed ticker.
-
-  If a change in the label text/count is detected, the cached axis margin is
-  invalidated to make sure the next margin calculation recalculates the label
-  sizes and returns an up-to-date value.
-*/
 void QCPPolarAxisAngular::setupTickVectors() {
   if (!mParentPlot) return;
   if ((!mTicks && !mTickLabels && !mGrid->visible()) || mRange.size() <= 0)
@@ -33843,8 +33772,6 @@ void QCPPolarAxisAngular::setupTickVectors() {
                     mSubTicks ? &mSubTickVector : 0,
                     mTickLabels ? &mTickVectorLabels : 0);
 
-  // fill cos/sin buffers which will be used by draw() and
-  // QCPPolarGrid::draw(), so we don't have to calculate it twice:
   mTickVectorCosSin.resize(mTickVector.size());
   for (int i = 0; i < mTickVector.size(); ++i) {
     const double theta = coordToAngleRad(mTickVector.at(i));
@@ -33857,84 +33784,37 @@ void QCPPolarAxisAngular::setupTickVectors() {
   }
 }
 
-/*! \internal
-
-  Returns the pen that is used to draw the axis base line. Depending on the
-  selection state, this is either mSelectedBasePen or mBasePen.
-*/
 QPen QCPPolarAxisAngular::getBasePen() const {
   return mSelectedParts.testFlag(spAxis) ? mSelectedBasePen : mBasePen;
 }
 
-/*! \internal
-
-  Returns the pen that is used to draw the (major) ticks. Depending on the
-  selection state, this is either mSelectedTickPen or mTickPen.
-*/
 QPen QCPPolarAxisAngular::getTickPen() const {
   return mSelectedParts.testFlag(spAxis) ? mSelectedTickPen : mTickPen;
 }
 
-/*! \internal
-
-  Returns the pen that is used to draw the subticks. Depending on the selection
-  state, this is either mSelectedSubTickPen or mSubTickPen.
-*/
 QPen QCPPolarAxisAngular::getSubTickPen() const {
   return mSelectedParts.testFlag(spAxis) ? mSelectedSubTickPen : mSubTickPen;
 }
 
-/*! \internal
-
-  Returns the font that is used to draw the tick labels. Depending on the
-  selection state, this is either mSelectedTickLabelFont or mTickLabelFont.
-*/
 QFont QCPPolarAxisAngular::getTickLabelFont() const {
   return mSelectedParts.testFlag(spTickLabels) ? mSelectedTickLabelFont
                                                : mTickLabelFont;
 }
 
-/*! \internal
-
-  Returns the font that is used to draw the axis label. Depending on the
-  selection state, this is either mSelectedLabelFont or mLabelFont.
-*/
 QFont QCPPolarAxisAngular::getLabelFont() const {
   return mSelectedParts.testFlag(spAxisLabel) ? mSelectedLabelFont : mLabelFont;
 }
 
-/*! \internal
-
-  Returns the color that is used to draw the tick labels. Depending on the
-  selection state, this is either mSelectedTickLabelColor or mTickLabelColor.
-*/
 QColor QCPPolarAxisAngular::getTickLabelColor() const {
   return mSelectedParts.testFlag(spTickLabels) ? mSelectedTickLabelColor
                                                : mTickLabelColor;
 }
 
-/*! \internal
-
-  Returns the color that is used to draw the axis label. Depending on the
-  selection state, this is either mSelectedLabelColor or mLabelColor.
-*/
 QColor QCPPolarAxisAngular::getLabelColor() const {
   return mSelectedParts.testFlag(spAxisLabel) ? mSelectedLabelColor
                                               : mLabelColor;
 }
 
-/*! \internal
-
-  Event handler for when a mouse button is pressed on the axis rect. If the left
-  mouse button is pressed, the range dragging interaction is initialized (the
-  actual range manipulation happens in the \ref mouseMoveEvent).
-
-  The mDragging flag is set to true and some anchor points are set that are
-  needed to determine the distance the mouse was dragged in the mouse
-  move/release events later.
-
-  \see mouseMoveEvent, mouseReleaseEvent
-*/
 void QCPPolarAxisAngular::mousePressEvent(QMouseEvent *event,
                                           const QVariant &details) {
   Q_UNUSED(details)
@@ -34022,23 +33902,6 @@ void QCPPolarAxisAngular::mouseReleaseEvent(QMouseEvent *event,
   }
 }
 
-/*! \internal
-
-  Event handler for mouse wheel events. If rangeZoom is Qt::Horizontal,
-  Qt::Vertical or both, the ranges of the axes defined as rangeZoomHorzAxis and
-  rangeZoomVertAxis are scaled. The center of the scaling operation is the
-  current cursor position inside the axis rect. The scaling factor is dependent
-  on the mouse wheel delta (which direction the wheel was rotated) to provide a
-  natural zooming feel. The Strength of the zoom can be controlled via \ref
-  setRangeZoomFactor.
-
-  Note, that event->delta() is usually +/-120 for single rotation steps.
-  However, if the mouse wheel is turned rapidly, many steps may bunch up to one
-  event, so the event->delta() may then be multiples of 120. This is taken into
-  account here, by calculating \a wheelSteps and using it as exponent of the
-  range zoom factor. This takes care of the wheel direction automatically, by
-  inverting the factor, when the wheel step is negative (f^-1 = 1/f).
-*/
 void QCPPolarAxisAngular::wheelEvent(QWheelEvent *event) {
   bool doReplot = false;
   // Mouse range zooming interaction:
@@ -34094,29 +33957,7 @@ bool QCPPolarAxisAngular::registerPolarGraph(QCPPolarGraph *graph) {
     graph->setLayer(mParentPlot->currentLayer());
   return true;
 }
-/* end of 'src/polar/layoutelement-angularaxis.cpp' */
 
-/* including file 'src/polar/polargrid.cpp' */
-/* modified 2021-03-29T02:30:44, size 7493  */
-
-////////////////////////////////////////////////////////////////////////////////////////////////////
-//////////////////// QCPPolarGrid
-////////////////////////////////////////////////////////////////////////////////////////////////////
-
-/*! \class QCPPolarGrid
-  \brief The grid in both angular and radial dimensions for polar plots
-
-  \warning In this QCustomPlot version, polar plots are a tech preview. Expect
-  documentation and functionality to be incomplete, as well as changing public
-  interfaces in the future.
-*/
-
-/*!
-  Creates a QCPPolarGrid instance and sets default values.
-
-  You shouldn't instantiate grids on their own, since every axis brings its own
-  grid.
-*/
 QCPPolarGrid::QCPPolarGrid(QCPPolarAxisAngular *parentAxis)
     : QCPLayerable(parentAxis->parentPlot(), QString(), parentAxis),
       mType(gtNone),
@@ -34148,28 +33989,16 @@ void QCPPolarGrid::setType(GridTypes type) { mType = type; }
 
 void QCPPolarGrid::setSubGridType(GridTypes type) { mSubGridType = type; }
 
-/*!
-  Sets whether sub grid lines are drawn antialiased.
-*/
 void QCPPolarGrid::setAntialiasedSubGrid(bool enabled) {
   mAntialiasedSubGrid = enabled;
 }
 
-/*!
-  Sets whether zero lines are drawn antialiased.
-*/
 void QCPPolarGrid::setAntialiasedZeroLine(bool enabled) {
   mAntialiasedZeroLine = enabled;
 }
 
-/*!
-  Sets the pen with which (major) grid lines are drawn.
-*/
 void QCPPolarGrid::setAngularPen(const QPen &pen) { mAngularPen = pen; }
 
-/*!
-  Sets the pen with which sub grid lines are drawn.
-*/
 void QCPPolarGrid::setAngularSubGridPen(const QPen &pen) {
   mAngularSubGridPen = pen;
 }
@@ -34184,30 +34013,10 @@ void QCPPolarGrid::setRadialZeroLinePen(const QPen &pen) {
   mRadialZeroLinePen = pen;
 }
 
-/*! \internal
-
-  A convenience function to easily set the QPainter::Antialiased hint on the
-  provided \a painter before drawing the major grid lines.
-
-  This is the antialiasing state the painter passed to the \ref draw method is
-  in by default.
-
-  This function takes into account the local setting of the antialiasing flag as
-  well as the overrides set with \ref QCustomPlot::setAntialiasedElements and
-  \ref QCustomPlot::setNotAntialiasedElements.
-
-  \see setAntialiased
-*/
 void QCPPolarGrid::applyDefaultAntialiasingHint(QCPPainter *painter) const {
   applyAntialiasingHint(painter, mAntialiased, QCP::aeGrid);
 }
 
-/*! \internal
-
-  Draws grid lines and sub grid lines at the positions of (sub) ticks of the
-  parent axis, spanning over the complete axis rect. Also draws the zero line,
-  if appropriate (\ref setZeroLinePen).
-*/
 void QCPPolarGrid::draw(QCPPainter *painter) {
   if (!mParentAxis) {
     qDebug() << Q_FUNC_INFO << "invalid parent axis";
@@ -34271,22 +34080,7 @@ void QCPPolarGrid::drawAngularGrid(QCPPainter *painter, const QPointF &center,
   for (int i = 0; i < ticksCosSin.size(); ++i)
     painter->drawLine(center, center + ticksCosSin.at(i) * radius);
 }
-/* end of 'src/polar/polargrid.cpp' */
 
-/* including file 'src/polar/polargraph.cpp' */
-/* modified 2021-03-29T02:30:44, size 44035  */
-
-////////////////////////////////////////////////////////////////////////////////////////////////////
-//////////////////// QCPPolarLegendItem
-////////////////////////////////////////////////////////////////////////////////////////////////////
-
-/*! \class QCPPolarLegendItem
-  \brief A legend item for polar plots
-
-  \warning In this QCustomPlot version, polar plots are a tech preview. Expect
-  documentation and functionality to be incomplete, as well as changing public
-  interfaces in the future.
-*/
 QCPPolarLegendItem::QCPPolarLegendItem(QCPLegend *parent, QCPPolarGraph *graph)
     : QCPAbstractLegendItem(parent), mPolarGraph(graph) {
   setAntialiased(false);
@@ -34355,39 +34149,6 @@ QFont QCPPolarLegendItem::getFont() const {
   return mSelected ? mSelectedFont : mFont;
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////
-//////////////////// QCPPolarGraph
-////////////////////////////////////////////////////////////////////////////////////////////////////
-
-/*! \class QCPPolarGraph
-  \brief A radial graph used to display data in polar plots
-
-  \warning In this QCustomPlot version, polar plots are a tech preview. Expect
-  documentation and functionality to be incomplete, as well as changing public
-  interfaces in the future.
-*/
-
-/* start of documentation of inline functions */
-
-// TODO
-
-/* end of documentation of inline functions */
-
-/*!
-  Constructs a graph which uses \a keyAxis as its angular and \a valueAxis as
-  its radial axis. \a keyAxis and \a valueAxis must reside in the same
-  QCustomPlot, and the radial axis must be associated with the angular axis. If
-  either of these restrictions is violated, a corresponding message is printed
-  to the debug output (qDebug), the construction is not aborted, though.
-
-  The created QCPPolarGraph is automatically registered with the QCustomPlot
-  instance inferred from \a keyAxis. This QCustomPlot instance takes ownership
-  of the QCPPolarGraph, so do not delete it manually but use
-  QCPPolarAxisAngular::removeGraph() instead.
-
-  To directly create a QCPPolarGraph inside a plot, you shoud use the
-  QCPPolarAxisAngular::addGraph method.
-*/
 QCPPolarGraph::QCPPolarGraph(QCPPolarAxisAngular *keyAxis,
                              QCPPolarAxisRadial *valueAxis)
     : QCPLayerable(keyAxis->parentPlot(), QString(), keyAxis),
@@ -34426,101 +34187,28 @@ QCPPolarGraph::~QCPPolarGraph() {
   */
 }
 
-/*!
-   The name is the textual representation of this plottable as it is displayed
-   in the legend
-   (\ref QCPLegend). It may contain any UTF-8 characters, including newlines.
-*/
 void QCPPolarGraph::setName(const QString &name) { mName = name; }
 
-/*!
-  Sets whether fills of this plottable are drawn antialiased or not.
-
-  Note that this setting may be overridden by \ref
-  QCustomPlot::setAntialiasedElements and \ref
-  QCustomPlot::setNotAntialiasedElements.
-*/
 void QCPPolarGraph::setAntialiasedFill(bool enabled) {
   mAntialiasedFill = enabled;
 }
 
-/*!
-  Sets whether the scatter symbols of this plottable are drawn antialiased or
-  not.
-
-  Note that this setting may be overridden by \ref
-  QCustomPlot::setAntialiasedElements and \ref
-  QCustomPlot::setNotAntialiasedElements.
-*/
 void QCPPolarGraph::setAntialiasedScatters(bool enabled) {
   mAntialiasedScatters = enabled;
 }
 
-/*!
-  The pen is used to draw basic lines that make up the plottable representation
-  in the plot.
-
-  For example, the \ref QCPGraph subclass draws its graph lines with this pen.
-
-  \see setBrush
-*/
 void QCPPolarGraph::setPen(const QPen &pen) { mPen = pen; }
 
-/*!
-  The brush is used to draw basic fills of the plottable representation in the
-  plot. The Fill can be a color, gradient or texture, see the usage of QBrush.
-
-  For example, the \ref QCPGraph subclass draws the fill under the graph with
-  this brush, when it's not set to Qt::NoBrush.
-
-  \see setPen
-*/
 void QCPPolarGraph::setBrush(const QBrush &brush) { mBrush = brush; }
 
 void QCPPolarGraph::setPeriodic(bool enabled) { mPeriodic = enabled; }
 
-/*!
-  The key axis of a plottable can be set to any axis of a QCustomPlot, as long
-  as it is orthogonal to the plottable's value axis. This function performs no
-  checks to make sure this is the case. The typical mathematical choice is to
-  use the x-axis (QCustomPlot::xAxis) as key axis and the y-axis
-  (QCustomPlot::yAxis) as value axis.
-
-  Normally, the key and value axes are set in the constructor of the plottable
-  (or \ref QCustomPlot::addGraph when working with QCPGraphs through the
-  dedicated graph interface).
-
-  \see setValueAxis
-*/
 void QCPPolarGraph::setKeyAxis(QCPPolarAxisAngular *axis) { mKeyAxis = axis; }
 
-/*!
-  The value axis of a plottable can be set to any axis of a QCustomPlot, as long
-  as it is orthogonal to the plottable's key axis. This function performs no
-  checks to make sure this is the case. The typical mathematical choice is to
-  use the x-axis (QCustomPlot::xAxis) as key axis and the y-axis
-  (QCustomPlot::yAxis) as value axis.
-
-  Normally, the key and value axes are set in the constructor of the plottable
-  (or \ref QCustomPlot::addGraph when working with QCPGraphs through the
-  dedicated graph interface).
-
-  \see setKeyAxis
-*/
 void QCPPolarGraph::setValueAxis(QCPPolarAxisRadial *axis) {
   mValueAxis = axis;
 }
 
-/*!
-  Sets whether and to which granularity this plottable can be selected.
-
-  A selection can happen by clicking on the QCustomPlot surface (When \ref
-  QCustomPlot::setInteractions contains \ref QCP::iSelectPlottables), by
-  dragging a selection rect (When \ref QCustomPlot::setSelectionRectMode is \ref
-  QCP::srmSelect), or programmatically by calling \ref setSelection.
-
-  \see setSelection, QCP::SelectionType
-*/
 void QCPPolarGraph::setSelectable(QCP::SelectionType selectable) {
   if (mSelectable != selectable) {
     mSelectable = selectable;
@@ -34534,27 +34222,6 @@ void QCPPolarGraph::setSelectable(QCP::SelectionType selectable) {
   }
 }
 
-/*!
-  Sets which data ranges of this plottable are selected. Selected data ranges
-  are drawn differently (e.g. color) in the plot. This can be controlled via the
-  selection decorator (see \ref selectionDecorator).
-
-  The entire selection mechanism for plottables is handled automatically when
-  \ref QCustomPlot::setInteractions contains iSelectPlottables. You only need to
-  call this function when you wish to change the selection state
-  programmatically.
-
-  Using \ref setSelectable you can further specify for each plottable whether
-  and to which granularity it is selectable. If \a selection is not compatible
-  with the current \ref QCP::SelectionType set via \ref setSelectable, the
-  resulting selection will be adjusted accordingly (see \ref
-  QCPDataSelection::enforceType).
-
-  emits the \ref selectionChanged signal when \a selected is different from the
-  previous selection state.
-
-  \see setSelectable, selectTest
-*/
 void QCPPolarGraph::setSelection(QCPDataSelection selection) {
   selection.enforceType(mSelectable);
   if (mSelection != selection) {
@@ -34564,61 +34231,18 @@ void QCPPolarGraph::setSelection(QCPDataSelection selection) {
   }
 }
 
-/*! \overload
-
-  Replaces the current data container with the provided \a data container.
-
-  Since a QSharedPointer is used, multiple QCPPolarGraphs may share the same
-  data container safely. Modifying the data in the container will then affect
-  all graphs that share the container. Sharing can be achieved by simply
-  exchanging the data containers wrapped in shared pointers: \snippet
-  documentation/doc-code-snippets/mainwindow.cpp QCPPolarGraph-datasharing-1
-
-  If you do not wish to share containers, but create a copy from an existing
-  container, rather use the \ref QCPDataContainer<DataType>::set method on the
-  graph's data container directly: \snippet
-  documentation/doc-code-snippets/mainwindow.cpp QCPPolarGraph-datasharing-2
-
-  \see addData
-*/
 void QCPPolarGraph::setData(QSharedPointer<QCPGraphDataContainer> data) {
   mDataContainer = data;
 }
 
-/*! \overload
-
-  Replaces the current data with the provided points in \a keys and \a values.
-  The provided vectors should have equal length. Else, the number of added
-  points will be the size of the smallest vector.
-
-  If you can guarantee that the passed data points are sorted by \a keys in
-  ascending order, you can set \a alreadySorted to true, to improve performance
-  by saving a sorting run.
-
-  \see addData
-*/
 void QCPPolarGraph::setData(const QVector<double> &keys,
                             const QVector<double> &values, bool alreadySorted) {
   mDataContainer->clear();
   addData(keys, values, alreadySorted);
 }
 
-/*!
-  Sets how the single data points are connected in the plot. For scatter-only
-  plots, set \a ls to \ref lsNone and \ref setScatterStyle to the desired
-  scatter style.
-
-  \see setScatterStyle
-*/
 void QCPPolarGraph::setLineStyle(LineStyle ls) { mLineStyle = ls; }
 
-/*!
-  Sets the visual appearance of single data points in the plot. If set to \ref
-  QCPScatterStyle::ssNone, no scatter points are drawn (e.g. for line-only-plots
-  with appropriate line style).
-
-  \see QCPScatterStyle, setLineStyle
-*/
 void QCPPolarGraph::setScatterStyle(const QCPScatterStyle &style) {
   mScatterStyle = style;
 }
@@ -34648,34 +34272,6 @@ void QCPPolarGraph::addData(const QVector<double> &keys,
 void QCPPolarGraph::addData(double key, double value) {
   mDataContainer->add(QCPGraphData(key, value));
 }
-
-/*!
-  Use this method to set an own QCPSelectionDecorator (subclass) instance. This
-  allows you to customize the visual representation of selected data ranges
-  further than by using the default QCPSelectionDecorator.
-
-  The plottable takes ownership of the \a decorator.
-
-  The currently set decorator can be accessed via \ref selectionDecorator.
-*/
-/*
-void QCPPolarGraph::setSelectionDecorator(QCPSelectionDecorator *decorator)
-{
-  if (decorator)
-  {
-    if (decorator->registerWithPlottable(this))
-    {
-      if (mSelectionDecorator) // delete old decorator if necessary
-        delete mSelectionDecorator;
-      mSelectionDecorator = decorator;
-    }
-  } else if (mSelectionDecorator) // just clear decorator
-  {
-    delete mSelectionDecorator;
-    mSelectionDecorator = 0;
-  }
-}
-*/
 
 void QCPPolarGraph::coordsToPixels(double key, double value, double &x,
                                    double &y) const {
@@ -34932,10 +34528,6 @@ void QCPPolarGraph::draw(QCPPainter *painter) {
     }
 #endif
 
-    // draw fill of graph:
-    // if (isSelectedSegment && mSelectionDecorator)
-    //  mSelectionDecorator->applyBrush(painter);
-    // else
     painter->setBrush(mBrush);
     painter->setPen(Qt::NoPen);
     drawFill(painter, &lines);
@@ -34998,7 +34590,6 @@ void QCPPolarGraph::selectEvent(QMouseEvent *event, bool additive,
   }
 }
 
-/* inherits documentation from base class */
 void QCPPolarGraph::deselectEvent(bool *selectionStateChanged) {
   if (mSelectable != QCP::stNone) {
     QCPDataSelection selectionBefore = mSelection;
@@ -35008,12 +34599,6 @@ void QCPPolarGraph::deselectEvent(bool *selectionStateChanged) {
   }
 }
 
-/*!  \internal
-
-  Draws lines between the points in \a lines, given in pixel coordinates.
-
-  \see drawScatterPlot, drawImpulsePlot, QCPAbstractPlottable1D::drawPolyline
-*/
 void QCPPolarGraph::drawLinePlot(QCPPainter *painter,
                                  const QVector<QPointF> &lines) const {
   if (painter->pen().style() != Qt::NoPen &&
@@ -35023,26 +34608,6 @@ void QCPPolarGraph::drawLinePlot(QCPPainter *painter,
   }
 }
 
-/*! \internal
-
-  Draws the fill of the graph using the specified \a painter, with the currently
-  set brush.
-
-  Depending on whether a normal fill or a channel fill (\ref
-  setChannelFillGraph) is needed, \ref getFillPolygon or \ref
-  getChannelFillPolygon are used to find the according fill polygons.
-
-  In order to handle NaN Data points correctly (the fill needs to be split into
-  disjoint areas), this method first determines a list of non-NaN segments with
-  \ref getNonNanSegments, on which to operate. In the channel fill case, \ref
-  getOverlappingSegments is used to consolidate the non-NaN segments of the two
-  involved graphs, before passing the overlapping pairs to \ref
-  getChannelFillPolygon.
-
-  Pass the points of this graph's line as \a lines, in pixel coordinates.
-
-  \see drawLinePlot, drawImpulsePlot, drawScatterPlot
-*/
 void QCPPolarGraph::drawFill(QCPPainter *painter,
                              QVector<QPointF> *lines) const {
   applyFillAntialiasingHint(painter);
@@ -35327,8 +34892,6 @@ void QCPPolarGraph::getOptimizedLineData(
     const QCPGraphDataContainer::const_iterator &end) const {
   lineData->clear();
 
-  // TODO: fix for log axes and thick line style
-
   const QCPRange range = mValueAxis->range();
   bool reversed = mValueAxis->rangeReversed();
   const double clipMargin =
@@ -35345,29 +34908,29 @@ void QCPPolarGraph::getOptimizedLineData(
   const double lowerClipValue =
       range.lower -
       (reversed ? range.size() * 0.05 + clipMargin
-                : 0);  // clip slightly outside of actual range to avoid
-                       // line thicknesses to peek into visible circle
+                : 0);  
+                       
   const double maxKeySkip =
       qAsin(qSqrt(clipMargin * (clipMargin + 2 * range.size())) /
             (range.size() + clipMargin)) /
       M_PI *
       mKeyAxis->range()
-          .size();  // the maximum angle between two points on outer circle
-                    // (r=clipValue+clipMargin) before connecting line becomes
-                    // tangent to inner circle (r=clipValue)
+          .size(); 
+                   
+                   
   double skipBegin = 0;
   bool belowRange = false;
   bool aboveRange = false;
   QCPGraphDataContainer::const_iterator it = begin;
   while (it != end) {
     if (it->value < lowerClipValue) {
-      if (aboveRange)  // jumped directly from above to below visible
-                       // range, draw previous point so entry angle is
-                       // correct
+      if (aboveRange)  
+                       
+                       
       {
         aboveRange = false;
-        if (!reversed)  // TODO: with inner radius, we'll need else case
-                        // here with projected border point
+        if (!reversed)  
+                        
           lineData->append(*(it - 1));
       }
       if (!belowRange) {
@@ -35376,18 +34939,18 @@ void QCPPolarGraph::getOptimizedLineData(
         belowRange = true;
       }
       if (it->key - skipBegin >
-          maxKeySkip)  // add dummy point if we're exceeding the maximum
-                       // skippable angle (to prevent unintentional
-                       // intersections with visible circle)
+          maxKeySkip) 
+                      
+                      
       {
         skipBegin += maxKeySkip;
         lineData->append(QCPGraphData(skipBegin, lowerClipValue));
       }
     } else if (it->value > upperClipValue) {
-      if (belowRange)  // jumped directly from below to above visible
-                       // range, draw previous point so entry angle is
-                       // correct (if lower means outer, so if reversed
-                       // axis)
+      if (belowRange)  
+                       
+                       
+                       
       {
         belowRange = false;
         if (reversed) lineData->append(*(it - 1));
@@ -35398,48 +34961,48 @@ void QCPPolarGraph::getOptimizedLineData(
         aboveRange = true;
       }
       if (it->key - skipBegin >
-          maxKeySkip)  // add dummy point if we're exceeding the maximum
-                       // skippable angle (to prevent unintentional
-                       // intersections with visible circle)
+          maxKeySkip) 
+                      
+                      
       {
         skipBegin += maxKeySkip;
         lineData->append(QCPGraphData(skipBegin, upperClipValue));
       }
-    } else  // value within bounds where we don't optimize away points
+    } else 
     {
       if (aboveRange) {
         aboveRange = false;
         if (!reversed)
           lineData->append(
-              *(it - 1));  // just entered from above, draw previous
-                           // point so entry angle is correct (if above
-                           // means outer, so if not reversed axis)
+              *(it - 1));  
+                           
+                           
       }
       if (belowRange) {
         belowRange = false;
         if (reversed)
           lineData->append(
-              *(it - 1));  // just entered from below, draw previous
-                           // point so entry angle is correct (if
-                           // below means outer, so if reversed axis)
+              *(it - 1)); 
+                          
+                          
       }
-      lineData->append(*it);  // inside visible circle, add point normally
+      lineData->append(*it);
     }
     ++it;
   }
   if (aboveRange) {
     aboveRange = false;
     if (!reversed)
-      lineData->append(*(it - 1));  // just entered from above, draw previous
-                                    // point so entry angle is correct (if above
-                                    // means outer, so if not reversed axis)
+      lineData->append(*(it - 1)); 
+                                   
+                                   
   }
   if (belowRange) {
     belowRange = false;
     if (reversed)
-      lineData->append(*(it - 1));  // just entered from below, draw previous
-                                    // point so entry angle is correct (if below
-                                    // means outer, so if reversed axis)
+      lineData->append(*(it - 1)); 
+                                   
+                                   
   }
 }
 

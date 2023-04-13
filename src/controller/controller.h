@@ -15,7 +15,7 @@ class Controller {
   bool Calculate(const char* input, const char* input_x);
   bool Calculate(const char* input, long double x);
   long double GetResult();
-  bool CheckGraphicParameters(const char* x_min_char_str,
+  bool CheckGraph(const char* x_min_char_str,
                               const char* x_max_char_str,
                               const char* y_min_char_str,
                               const char* y_max_char_str,

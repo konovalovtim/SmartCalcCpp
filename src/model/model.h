@@ -6,6 +6,7 @@
 
 #include <stack>
 #include <vector>
+
 #define SIZE 255
 
 namespace s21 {
@@ -14,7 +15,7 @@ class Model {
  public:
   bool Input(const char* input, const char* input_x);
   bool Input(const char* input, long double x);
-  bool CheckGraphicParameters(const char* x_min_char_str,
+  bool CheckGraph(const char* x_min_char_str,
                               const char* x_max_char_str,
                               const char* y_min_char_str,
                               const char* y_max_char_str,
@@ -97,7 +98,6 @@ class Model::InputStringParsing {
   bool return_value_;
   int input_count, lexeme_count, bracket_count;
   const char* input_;
-
   void ClearMassiveForLexemes();
 };
 
@@ -106,7 +106,7 @@ class Model::ReversePolishNotationCalculation {
   ReversePolishNotationCalculation() {
     stack_.reserve(SIZE);
     output_.reserve(SIZE);
-    stack_cnt_ = output_amount_ = -1;
+    stack_count = output_amount = -1;
   }
   ~ReversePolishNotationCalculation() {}
   void TranslateToRpn(std::vector<Lexeme>& lexemes_);
@@ -116,7 +116,7 @@ class Model::ReversePolishNotationCalculation {
  private:
   std::vector<Lexeme> stack_;
   std::vector<Lexeme> output_;
-  int stack_cnt_, output_amount_;
+  int stack_count, output_amount;
 };
 }  // namespace s21
 

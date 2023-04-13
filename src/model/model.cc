@@ -47,7 +47,6 @@ bool Model::Input(const char* input, long double x) {
       }
     }
   }
-
   return return_value;
 }
 
@@ -100,65 +99,40 @@ bool Model::InputStringParsing::Menu() {
         input_count++;
         if (input_[input_count] == 'i') {
           input_count++;
-          if (input_[input_count] == 'n') {
-            Sin();
-          } else {
-            return_value_ = false;
-          }
+          if (input_[input_count] == 'n') Sin();
+          else return_value_ = false;
         } else if (input_[input_count] == 'q') {
           input_count++;
           if (input_[input_count] == 'r') {
             input_count++;
-            if (input_[input_count] == 't') {
-              Sqrt();
-            } else {
-              return_value_ = false;
-            }
-          } else {
-            return_value_ = false;
-          }
-        } else {
-          return_value_ = false;
-        }
+            if (input_[input_count] == 't') Sqrt();
+            else return_value_ = false;
+          } else return_value_ = false;
+        } else return_value_ = false;
         break;
       case 'c':
         input_count++;
         if (input_[input_count] == 'o') {
           input_count++;
-          if (input_[input_count] == 's') {
-            Cos();
-          } else {
-            return_value_ = false;
-          }
-        } else {
-          return_value_ = false;
-        }
+          if (input_[input_count] == 's') Cos();
+          else return_value_ = false;
+        } else return_value_ = false;
         break;
       case 't':
         input_count++;
         if (input_[input_count] == 'a') {
           input_count++;
-          if (input_[input_count] == 'n') {
-            Tan();
-          } else {
-            return_value_ = false;
-          }
-        } else {
-          return_value_ = false;
-        }
+          if (input_[input_count] == 'n') Tan();
+          else return_value_ = false;
+        } else return_value_ = false;
         break;
       case 'm':
         input_count++;
         if (input_[input_count] == 'o') {
           input_count++;
-          if (input_[input_count] == 'd') {
-            Mod();
-          } else {
-            return_value_ = false;
-          }
-        } else {
-          return_value_ = false;
-        }
+          if (input_[input_count] == 'd') Mod();
+          else return_value_ = false;
+        } else return_value_ = false;
         break;
       case 'a':
         input_count++;
@@ -190,32 +164,19 @@ bool Model::InputStringParsing::Menu() {
           input_count++;
           if (input_[input_count] == 'a') {
             input_count++;
-            if (input_[input_count] == 'n') {
-              Atan();
-            } else {
-              return_value_ = false;
-            }
-          } else {
-            return_value_ = false;
-          }
-        } else {
-          return_value_ = false;
-        }
+            if (input_[input_count] == 'n') Atan();
+            else return_value_ = false;
+          } else return_value_ = false;
+        } else return_value_ = false;
         break;
       case 'l':
         input_count++;
-        if (input_[input_count] == 'n') {
-          Ln();
-        } else if (input_[input_count] == 'o') {
+        if (input_[input_count] == 'n') Ln();
+        else if (input_[input_count] == 'o') {
           input_count++;
-          if (input_[input_count] == 'g') {
-            Log();
-          } else {
-            return_value_ = false;
-          }
-        } else {
-          return_value_ = false;
-        }
+          if (input_[input_count] == 'g') Log();
+          else return_value_ = false;
+        } else return_value_ = false;
         break;
       case '0':
       case '1':
@@ -268,9 +229,7 @@ void Model::InputStringParsing::OpenBracket() {
       lexemes_[lexeme_count].priority = -1;
       bracket_count++;
       lexeme_count++;
-    } else {
-      return_value_ = false;
-    }
+    } else return_value_ = false;
   } else {
     lexemes_[lexeme_count].type = OPEN_BRACKET;
     lexemes_[lexeme_count].priority = 3;
@@ -288,12 +247,8 @@ void Model::InputStringParsing::CloseBracket() {
       lexemes_[lexeme_count].priority = -1;
       lexeme_count++;
       bracket_count--;
-    } else {
-      return_value_ = false;
-    }
-  } else {
-    return_value_ = false;
-  }
+    } else return_value_ = false;
+  } else return_value_ = false;
 }
 
 void Model::InputStringParsing::Minus() {
@@ -308,9 +263,7 @@ void Model::InputStringParsing::Minus() {
       lexemes_[lexeme_count].type = UNARY_MINUS;
       lexemes_[lexeme_count].priority = 1;
       lexeme_count++;
-    } else {
-      return_value_ = false;
-    }
+    } else return_value_ = false;
   } else {
     lexemes_[lexeme_count].type = UNARY_MINUS;
     lexemes_[lexeme_count].priority = 1;
@@ -330,9 +283,7 @@ void Model::InputStringParsing::Plus() {
       lexemes_[lexeme_count].type = UNARY_PLUS;
       lexemes_[lexeme_count].priority = 1;
       lexeme_count++;
-    } else {
-      return_value_ = false;
-    }
+    } else return_value_ = false;
   } else {
     lexemes_[lexeme_count].type = UNARY_PLUS;
     lexemes_[lexeme_count].priority = 1;
@@ -348,12 +299,8 @@ void Model::InputStringParsing::Mul() {
       lexemes_[lexeme_count].type = MUL;
       lexemes_[lexeme_count].priority = 2;
       lexeme_count++;
-    } else {
-      return_value_ = false;
-    }
-  } else {
-    return_value_ = false;
-  }
+    } else return_value_ = false;
+  } else  return_value_ = false;
 }
 
 void Model::InputStringParsing::Div() {
@@ -364,12 +311,8 @@ void Model::InputStringParsing::Div() {
       lexemes_[lexeme_count].type = DIV;
       lexemes_[lexeme_count].priority = 2;
       lexeme_count++;
-    } else {
-      return_value_ = false;
-    }
-  } else {
-    return_value_ = false;
-  }
+    } else return_value_ = false;
+  } else return_value_ = false;
 }
 
 void Model::InputStringParsing::Pow() {
@@ -380,12 +323,8 @@ void Model::InputStringParsing::Pow() {
       lexemes_[lexeme_count].type = POW;
       lexemes_[lexeme_count].priority = 3;
       lexeme_count++;
-    } else {
-      return_value_ = false;
-    }
-  } else {
-    return_value_ = false;
-  }
+    } else return_value_ = false;
+  } else return_value_ = false;
 }
 
 void Model::InputStringParsing::X() {
@@ -402,9 +341,7 @@ void Model::InputStringParsing::X() {
       lexemes_[lexeme_count].type = VARIABLE;
       lexemes_[lexeme_count].priority = -1;
       lexeme_count++;
-    } else {
-      return_value_ = false;
-    }
+    } else return_value_ = false;
   } else {
     lexemes_[lexeme_count].type = VARIABLE;
     lexeme_count++;
@@ -425,9 +362,7 @@ void Model::InputStringParsing::Sin() {
       lexemes_[lexeme_count].type = SIN;
       lexemes_[lexeme_count].priority = 4;
       lexeme_count++;
-    } else {
-      return_value_ = false;
-    }
+    } else return_value_ = false;
   } else {
     lexemes_[lexeme_count].type = SIN;
     lexemes_[lexeme_count].priority = 4;
@@ -473,9 +408,7 @@ void Model::InputStringParsing::Cos() {
       lexemes_[lexeme_count].type = COS;
       lexemes_[lexeme_count].priority = 4;
       lexeme_count++;
-    } else {
-      return_value_ = false;
-    }
+    } else return_value_ = false;
   } else {
     lexemes_[lexeme_count].type = COS;
     lexemes_[lexeme_count].priority = 4;
@@ -497,9 +430,7 @@ void Model::InputStringParsing::Tan() {
       lexemes_[lexeme_count].type = TAN;
       lexemes_[lexeme_count].priority = 4;
       lexeme_count++;
-    } else {
-      return_value_ = false;
-    }
+    } else return_value_ = false;
   } else {
     lexemes_[lexeme_count].type = TAN;
     lexemes_[lexeme_count].priority = 4;
@@ -515,12 +446,8 @@ void Model::InputStringParsing::Mod() {
       lexemes_[lexeme_count].type = MOD;
       lexemes_[lexeme_count].priority = 2;
       lexeme_count++;
-    } else {
-      return_value_ = false;
-    }
-  } else {
-    return_value_ = false;
-  }
+    } else return_value_ = false;
+  } else return_value_ = false;
 }
 
 void Model::InputStringParsing::Asin() {
@@ -537,9 +464,7 @@ void Model::InputStringParsing::Asin() {
       lexemes_[lexeme_count].type = ASIN;
       lexemes_[lexeme_count].priority = 4;
       lexeme_count++;
-    } else {
-      return_value_ = false;
-    }
+    } else return_value_ = false;
   } else {
     lexemes_[lexeme_count].type = ASIN;
     lexemes_[lexeme_count].priority = 4;
@@ -561,9 +486,7 @@ void Model::InputStringParsing::Acos() {
       lexemes_[lexeme_count].type = ACOS;
       lexemes_[lexeme_count].priority = 4;
       lexeme_count++;
-    } else {
-      return_value_ = false;
-    }
+    } else return_value_ = false;
   } else {
     lexemes_[lexeme_count].type = ACOS;
     lexemes_[lexeme_count].priority = 4;
@@ -585,9 +508,7 @@ void Model::InputStringParsing::Atan() {
       lexemes_[lexeme_count].type = ATAN;
       lexemes_[lexeme_count].priority = 4;
       lexeme_count++;
-    } else {
-      return_value_ = false;
-    }
+    } else return_value_ = false;
   } else {
     lexemes_[lexeme_count].type = ATAN;
     lexemes_[lexeme_count].priority = 4;
@@ -609,9 +530,7 @@ void Model::InputStringParsing::Ln() {
       lexemes_[lexeme_count].type = LN;
       lexemes_[lexeme_count].priority = 4;
       lexeme_count++;
-    } else {
-      return_value_ = false;
-    }
+    } else return_value_ = false;
   } else {
     lexemes_[lexeme_count].type = LN;
     lexemes_[lexeme_count].priority = 4;
@@ -633,9 +552,7 @@ void Model::InputStringParsing::Log() {
       lexemes_[lexeme_count].type = LOG;
       lexemes_[lexeme_count].priority = 4;
       lexeme_count++;
-    } else {
-      return_value_ = false;
-    }
+    } else return_value_ = false;
   } else {
     lexemes_[lexeme_count].type = LOG;
     lexemes_[lexeme_count].priority = 4;
@@ -661,12 +578,8 @@ void Model::InputStringParsing::Number() {
     input_count++;
     int k = 1;
     for (; IsNumber(input_[input_count]) || input_[input_count] == '.'; k++) {
-      if (input_[input_count] == '.') {
-        dot_counter++;
-      }
-      if (dot_counter > 1) {
-        return_value_ = false;
-      }
+      if (input_[input_count] == '.') dot_counter++;
+      if (dot_counter > 1) return_value_ = false;
       massive_for_number[k] = input_[input_count];
       input_count++;
     }
@@ -683,17 +596,13 @@ void Model::InputStringParsing::Number() {
             massive_for_number[k] = input_[input_count];
             input_count++;
           }
-        } else {
-          return_value_ = false;
-        }
+        } else return_value_ = false;
       } else if (IsNumber(input_[input_count])) {
         for (; IsNumber(input_[input_count]); k++) {
           massive_for_number[k] = input_[input_count];
           input_count++;
         }
-      } else {
-        return_value_ = false;
-      }
+      } else return_value_ = false;
     }
     if (return_value_) {
       input_count -= 1;
@@ -703,9 +612,7 @@ void Model::InputStringParsing::Number() {
       lexeme_count++;
     }
     delete[] massive_for_number;
-  } else {
-    return_value_ = false;
-  }
+  } else return_value_ = false;
 }
 
 void Model::InputStringParsing::FinalCheck() {
@@ -729,9 +636,7 @@ void Model::InputStringParsing::FinalCheck() {
         lexemes_[lexeme_count - 1].type == LN ||
         lexemes_[lexeme_count - 1].type == LOG)
       return_value_ = false;
-
     if (bracket_count != 0) return_value_ = false;
-
     if (input_count == 0 && lexeme_count == 0) return_value_ = false;
   }
 }
@@ -745,36 +650,36 @@ void Model::ReversePolishNotationCalculation::TranslateToRpn(
     std::vector<Lexeme>& lexemes_) {
   for (int lex_cnt = 0; lexemes_[lex_cnt].type != -1; lex_cnt++) {
     if (lexemes_[lex_cnt].type == NUMBER) {
-      output_amount_++;
-      output_[output_amount_] = lexemes_[lex_cnt];
+      output_amount++;
+      output_[output_amount] = lexemes_[lex_cnt];
     } else if (lexemes_[lex_cnt].type == OPEN_BRACKET) {
-      stack_cnt_++;
-      stack_[stack_cnt_] = lexemes_[lex_cnt];
+      stack_count++;
+      stack_[stack_count] = lexemes_[lex_cnt];
     } else if (IsOperator(lexemes_[lex_cnt])) {
-      if (stack_cnt_ >= 0) {
-        while (IsOperator(stack_[stack_cnt_]) &&
-               stack_[stack_cnt_].priority >= lexemes_[lex_cnt].priority) {
-          output_amount_++;
-          output_[output_amount_] = stack_[stack_cnt_];
-          stack_cnt_--;
+      if (stack_count >= 0) {
+        while (IsOperator(stack_[stack_count]) &&
+               stack_[stack_count].priority >= lexemes_[lex_cnt].priority) {
+          output_amount++;
+          output_[output_amount] = stack_[stack_count];
+          stack_count--;
         }
       }
-      stack_cnt_++;
-      stack_[stack_cnt_] = lexemes_[lex_cnt];
+      stack_count++;
+      stack_[stack_count] = lexemes_[lex_cnt];
     } else if (lexemes_[lex_cnt].type == CLOSE_BRACKET) {
-      while (stack_[stack_cnt_].type != OPEN_BRACKET) {
-        output_amount_++;
-        output_[output_amount_] = stack_[stack_cnt_];
-        stack_cnt_--;
+      while (stack_[stack_count].type != OPEN_BRACKET) {
+        output_amount++;
+        output_[output_amount] = stack_[stack_count];
+        stack_count--;
       }
-      stack_cnt_--;
+      stack_count--;
     }
   }
 
-  while (stack_cnt_ >= 0) {
-    output_amount_++;
-    output_[output_amount_] = stack_[stack_cnt_];
-    stack_cnt_--;
+  while (stack_count >= 0) {
+    output_amount++;
+    output_[output_amount] = stack_[stack_count];
+    stack_count--;
   }
 }
 
@@ -789,89 +694,72 @@ int Model::ReversePolishNotationCalculation::ReversePolishNotationCalculator(
   int return_value = true;
   std::vector<Lexeme> stack;
   stack.reserve(SIZE);
-  int stack_cnt_ = -1;
-  for (int output_cnt = 0; output_cnt <= output_amount_; output_cnt++) {
+  int stack_count = -1;
+  for (int output_cnt = 0; output_cnt <= output_amount; output_cnt++) {
     if (output_[output_cnt].type == NUMBER) {
-      stack_cnt_++;
-      stack[stack_cnt_].value = output_[output_cnt].value;
+      stack_count++;
+      stack[stack_count].value = output_[output_cnt].value;
     } else if (output_[output_cnt].type == UNARY_MINUS) {
-      stack[stack_cnt_].value *= -1;
+      stack[stack_count].value *= -1;
     } else if (output_[output_cnt].type == BINARY_MINUS) {
-      stack[stack_cnt_ - 1].value =
-          stack[stack_cnt_ - 1].value - stack[stack_cnt_].value;
-      stack_cnt_--;
+      stack[stack_count - 1].value =
+          stack[stack_count - 1].value - stack[stack_count].value;
+      stack_count--;
     } else if (output_[output_cnt].type == UNARY_PLUS) {
-      stack[stack_cnt_].value *= 1;
+      stack[stack_count].value *= 1;
     } else if (output_[output_cnt].type == BINARY_PLUS) {
-      stack[stack_cnt_ - 1].value =
-          stack[stack_cnt_ - 1].value + stack[stack_cnt_].value;
-      stack_cnt_--;
+      stack[stack_count - 1].value =
+          stack[stack_count - 1].value + stack[stack_count].value;
+      stack_count--;
     } else if (output_[output_cnt].type == MUL) {
-      stack[stack_cnt_ - 1].value =
-          stack[stack_cnt_ - 1].value * stack[stack_cnt_].value;
-      stack_cnt_--;
+      stack[stack_count - 1].value =
+          stack[stack_count - 1].value * stack[stack_count].value;
+      stack_count--;
     } else if (output_[output_cnt].type == DIV) {
-      if (stack[stack_cnt_].value == 0) {
-        return_value = false;
-      } else {
-        stack[stack_cnt_ - 1].value =
-            stack[stack_cnt_ - 1].value / stack[stack_cnt_].value;
-        stack_cnt_--;
+      if (stack[stack_count].value == 0) return_value = false;
+      else {
+        stack[stack_count - 1].value =
+            stack[stack_count - 1].value / stack[stack_count].value;
+        stack_count--;
       }
     } else if (output_[output_cnt].type == POW) {
-      stack[stack_cnt_ - 1].value =
-          powl(stack[stack_cnt_ - 1].value, stack[stack_cnt_].value);
-      stack_cnt_--;
+      stack[stack_count - 1].value =
+          powl(stack[stack_count - 1].value, stack[stack_count].value);
+      stack_count--;
     } else if (output_[output_cnt].type == MOD) {
-      if (stack[stack_cnt_].value == 0) {
-        return_value = false;
-      } else {
-        stack[stack_cnt_ - 1].value =
-            fmodl(stack[stack_cnt_ - 1].value, stack[stack_cnt_].value);
-        stack_cnt_--;
+      if (stack[stack_count].value == 0) return_value = false;
+      else {
+        stack[stack_count - 1].value =
+            fmodl(stack[stack_count - 1].value, stack[stack_count].value);
+        stack_count--;
       }
     } else if (output_[output_cnt].type == COS) {
-      stack[stack_cnt_].value = cosl(stack[stack_cnt_].value);
+      stack[stack_count].value = cosl(stack[stack_count].value);
     } else if (output_[output_cnt].type == SIN) {
-      stack[stack_cnt_].value = sinl(stack[stack_cnt_].value);
+      stack[stack_count].value = sinl(stack[stack_count].value);
     } else if (output_[output_cnt].type == TAN) {
-      stack[stack_cnt_].value = tanl(stack[stack_cnt_].value);
+      stack[stack_count].value = tanl(stack[stack_count].value);
     } else if (output_[output_cnt].type == ACOS) {
-      if (fabsl(stack[stack_cnt_].value) > 1) {
-        return_value = false;
-      } else {
-        stack[stack_cnt_].value = acosl(stack[stack_cnt_].value);
-      }
+      if (fabsl(stack[stack_count].value) > 1) return_value = false;
+      else stack[stack_count].value = acosl(stack[stack_count].value);
     } else if (output_[output_cnt].type == ASIN) {
-      if (fabsl(stack[stack_cnt_].value) > 1) {
-        return_value = false;
-      } else {
-        stack[stack_cnt_].value = asinl(stack[stack_cnt_].value);
-      }
+      if (fabsl(stack[stack_count].value) > 1) return_value = false;
+      else stack[stack_count].value = asinl(stack[stack_count].value);
     } else if (output_[output_cnt].type == ATAN) {
-      stack[stack_cnt_].value = atanl(stack[stack_cnt_].value);
+      stack[stack_count].value = atanl(stack[stack_count].value);
     } else if (output_[output_cnt].type == SQRT) {
-      if (stack[stack_cnt_].value < 0) {
-        return_value = false;
-      } else {
-        stack[stack_cnt_].value = sqrtl(stack[stack_cnt_].value);
-      }
+      if (stack[stack_count].value < 0) return_value = false;
+      else stack[stack_count].value = sqrtl(stack[stack_count].value);
     } else if (output_[output_cnt].type == LN) {
-      if (stack[stack_cnt_].value < 0) {
-        return_value = false;
-      } else {
-        stack[stack_cnt_].value = logl(stack[stack_cnt_].value);
-      }
+      if (stack[stack_count].value < 0) return_value = false;
+      else stack[stack_count].value = logl(stack[stack_count].value);
     } else if (output_[output_cnt].type == LOG) {
-      if (stack[stack_cnt_].value < 0) {
-        return_value = false;
-      } else {
-        stack[stack_cnt_].value = log10l(stack[stack_cnt_].value);
-      }
+      if (stack[stack_count].value < 0) return_value = false;
+      else stack[stack_count].value = log10l(stack[stack_count].value);
     }
     if (return_value == false) break;
   }
-  if (return_value) result = stack[stack_cnt_].value;
+  if (return_value) result = stack[stack_count].value;
   return return_value;
 }
 
@@ -881,9 +769,7 @@ bool Model::CheckDoubleCorrectness(const char* input_expr_x, long double& x) {
   int str_len = (int)strlen(input_expr_x);
   if (str_len == 0) return_value = false;
   if (str_len == 1 && input_expr_x[0] == '.') return_value = false;
-  if (input_expr_x[str_cnt] == '+' || input_expr_x[str_cnt] == '-') {
-    str_cnt++;
-  }
+  if (input_expr_x[str_cnt] == '+' || input_expr_x[str_cnt] == '-') str_cnt++;
   if (IsNumber(input_expr_x[str_cnt]) || input_expr_x[str_cnt] == '.') {
     while (IsNumber(input_expr_x[str_cnt]) || input_expr_x[str_cnt] == '.') {
       if (input_expr_x[str_cnt] == '.') dot_flag++;
@@ -896,37 +782,21 @@ bool Model::CheckDoubleCorrectness(const char* input_expr_x, long double& x) {
     if (input_expr_x[str_cnt] == '\0') {
     } else if (input_expr_x[str_cnt] == 'e') {
       str_cnt++;
-      if (input_expr_x[str_cnt] == '\0') {
-        return_value = false;
-      } else if (input_expr_x[str_cnt] == '+' || input_expr_x[str_cnt] == '-') {
-        str_cnt++;
-      }
+      if (input_expr_x[str_cnt] == '\0') return_value = false;
+      else if (input_expr_x[str_cnt] == '+' || input_expr_x[str_cnt] == '-') str_cnt++;
       if (return_value) {
         if (IsNumber(input_expr_x[str_cnt])) {
-          while (IsNumber(input_expr_x[str_cnt])) {
-            str_cnt++;
-          }
-          if (IsNumber(input_expr_x[str_cnt]) != '\0') {
-            return_value = false;
-          }
-        } else {
-          return_value = false;
-        }
+          while (IsNumber(input_expr_x[str_cnt])) str_cnt++;
+          if (IsNumber(input_expr_x[str_cnt]) != '\0') return_value = false;
+        } else return_value = false;
       }
-    } else {
-      return_value = false;
-    }
-  } else {
-    return_value = false;
-  }
-
-  if (return_value) {
-    x = atof(input_expr_x);
-  }
+    } else return_value = false;
+  } else return_value = false;
+  if (return_value) x = atof(input_expr_x);
   return return_value;
 }
 
-bool Model::CheckGraphicParameters(
+bool Model::CheckGraph(
     const char* x_max_char_str, const char* x_min_char_str,
     const char* y_max_char_str, const char* y_min_char_str,
     const char* step_char_str, long double& x_max, long double& x_min,
@@ -942,9 +812,7 @@ bool Model::CheckGraphicParameters(
   return_value =
       return_value ? CheckDoubleCorrectness(step_char_str, step) : return_value;
   if (step <= 0 || x_min < -1000000 || x_max > 1000000 || y_min < -1000000 ||
-      y_max > 1000000 || x_max - x_min < step || y_max - y_min < step) {
-    return_value = false;
-  }
+      y_max > 1000000 || x_max - x_min < step || y_max - y_min < step) return_value = false;
   return return_value;
 }
 }  // namespace s21

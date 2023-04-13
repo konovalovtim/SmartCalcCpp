@@ -52,7 +52,7 @@ border-bottom-right-radius: 10px;
      <string/>
     </property>
     <property name="alignment">
-     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
     </property>
    </widget>
    <widget class="QPushButton" name="pushButton_degree">
@@ -1212,6 +1212,12 @@ QPushButton:pressed {
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;</string>
     </property>
+    <property name="text">
+     <string>20</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
    </widget>
    <widget class="QLineEdit" name="lineText_xMax">
     <property name="enabled">
@@ -1240,6 +1246,9 @@ QPushButton:pressed {
     </property>
     <property name="text">
      <string>X max</string>
+    </property>
+    <property name="readOnly">
+     <bool>true</bool>
     </property>
    </widget>
    <widget class="QLineEdit" name="lineText_xMin">
@@ -1270,6 +1279,9 @@ QPushButton:pressed {
     <property name="text">
      <string>X min</string>
     </property>
+    <property name="readOnly">
+     <bool>true</bool>
+    </property>
    </widget>
    <widget class="QLineEdit" name="lineEdit_xMin">
     <property name="geometry">
@@ -1285,6 +1297,12 @@ QPushButton:pressed {
   border-top-left-radius: 5px;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;</string>
+    </property>
+    <property name="text">
+     <string>-20</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
     </property>
    </widget>
    <widget class="QLineEdit" name="lineEdit_yMin">
@@ -1302,6 +1320,12 @@ QPushButton:pressed {
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;</string>
     </property>
+    <property name="text">
+     <string>-20</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
    </widget>
    <widget class="QLineEdit" name="lineEdit_yMax">
     <property name="geometry">
@@ -1317,6 +1341,12 @@ QPushButton:pressed {
   border-top-left-radius: 5px;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;</string>
+    </property>
+    <property name="text">
+     <string>20</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
     </property>
    </widget>
    <widget class="QLineEdit" name="lineText_yMin">
@@ -1347,6 +1377,9 @@ QPushButton:pressed {
     <property name="text">
      <string>Y min</string>
     </property>
+    <property name="readOnly">
+     <bool>true</bool>
+    </property>
    </widget>
    <widget class="QLineEdit" name="lineText_yMax">
     <property name="enabled">
@@ -1375,6 +1408,9 @@ QPushButton:pressed {
     </property>
     <property name="text">
      <string>Y max</string>
+    </property>
+    <property name="readOnly">
+     <bool>true</bool>
     </property>
    </widget>
    <widget class="QLineEdit" name="lineText_step">
@@ -1405,6 +1441,9 @@ QPushButton:pressed {
     <property name="text">
      <string>Step</string>
     </property>
+    <property name="readOnly">
+     <bool>true</bool>
+    </property>
    </widget>
    <widget class="QLineEdit" name="lineEdit_step">
     <property name="geometry">
@@ -1421,6 +1460,12 @@ QPushButton:pressed {
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;</string>
     </property>
+    <property name="text">
+     <string>0.1</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
    </widget>
    <widget class="QLineEdit" name="lineEdit_xValue">
     <property name="geometry">
@@ -1436,6 +1481,12 @@ QPushButton:pressed {
   border-top-left-radius: 5px;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;</string>
+    </property>
+    <property name="text">
+     <string>0</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
     </property>
    </widget>
    <widget class="QLineEdit" name="lineText_xValue">
@@ -1465,6 +1516,9 @@ QPushButton:pressed {
     </property>
     <property name="text">
      <string>X:</string>
+    </property>
+    <property name="readOnly">
+     <bool>true</bool>
     </property>
    </widget>
   </widget>
