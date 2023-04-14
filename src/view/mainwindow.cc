@@ -136,7 +136,7 @@ void MainWindow::on_pushButton_Graphics_clicked() {
       my_controller.Calculate(expression, x_min)) {
     ui->widget->xAxis->setRange(x_min, x_max);
     ui->widget->yAxis->setRange(y_min, y_max);
-    for (long double counter = x_min; counter <= x_max; counter += step) {
+    for (long double counter = x_min, step = fabs(x_min - x_max) / 20000.; counter <= x_max; counter += step) {
       x.push_back(counter);
       my_controller.Calculate(expression, counter);
       y.push_back(my_controller.GetResult());

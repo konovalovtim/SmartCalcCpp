@@ -13,7 +13,7 @@ bool Model::Input(const char* input, const char* input_x) {
       for (int i = 0; input_string_parsing_obj.lexemes_[i].type != -1; i++) {
         if (input_string_parsing_obj.lexemes_[i].type == VARIABLE) {
           if (!x_correct) {
-            x_correct = CheckDoubleCorrectness(input_x, x);
+            x_correct = CheckDouble(input_x, x);
             if (!x_correct) {
               return_value = false;
               break;
@@ -58,8 +58,7 @@ bool Model::Calculation(InputStringParsing& input_string_parsing_obj) {
   bool return_value = true;
   ReversePolishNotationCalculation reverse_polish_notation_obj;
   reverse_polish_notation_obj.TranslateToRpn(input_string_parsing_obj.lexemes_);
-  return_value =
-      reverse_polish_notation_obj.ReversePolishNotationCalculator(result_);
+  return_value = reverse_polish_notation_obj.PolishNotation(result_);
   if (return_value && isnan(result_)) return_value = false;
   return return_value;
 }
@@ -733,7 +732,7 @@ int Model::ReversePolishNotationCalculation::IsOperator(Lexeme lexeme) {
   return return_value;
 }
 
-int Model::ReversePolishNotationCalculation::ReversePolishNotationCalculator(
+int Model::ReversePolishNotationCalculation::PolishNotation(
     long double& result) {
   int return_value = true;
   std::vector<Lexeme> stack;
@@ -819,7 +818,7 @@ int Model::ReversePolishNotationCalculation::ReversePolishNotationCalculator(
   return return_value;
 }
 
-bool Model::CheckDoubleCorrectness(const char* input_expr_x, long double& x) {
+bool Model::CheckDouble(const char* input_expr_x, long double& x) {
   bool return_value = true;
   int str_cnt = 0, dot_flag = 0;
   int str_len = (int)strlen(input_expr_x);
@@ -863,18 +862,18 @@ bool Model::CheckGraph(const char* x_max_char_str, const char* x_min_char_str,
                        long double& x_min, long double& y_max,
                        long double& y_min, long double& step) {
   bool return_value = true;
-  return_value = CheckDoubleCorrectness(x_max_char_str, x_max);
-  return_value = return_value ? CheckDoubleCorrectness(x_min_char_str, x_min)
-                              : return_value;
-  return_value = return_value ? CheckDoubleCorrectness(y_max_char_str, y_max)
-                              : return_value;
-  return_value = return_value ? CheckDoubleCorrectness(y_min_char_str, y_min)
-                              : return_value;
+  return_value = CheckDouble(x_max_char_str, x_max);
   return_value =
-      return_value ? CheckDoubleCorrectness(step_char_str, step) : return_value;
+      return_value ? CheckDouble(x_min_char_str, x_min) : return_value;
+  return_value =
+      return_value ? CheckDouble(y_max_char_str, y_max) : return_value;
+  return_value =
+      return_value ? CheckDouble(y_min_char_str, y_min) : return_value;
+  return_value = return_value ? CheckDouble(step_char_str, step) : return_value;
   if (step <= 0 || x_min < -1000000 || x_max > 1000000 || y_min < -1000000 ||
-      y_max > 1000000 || x_max - x_min < step || y_max - y_min < step)
+      y_max > 1000000 || x_min >= x_max)
     return_value = false;
   return return_value;
 }
+
 }  // namespace s21

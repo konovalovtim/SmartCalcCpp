@@ -4,8 +4,8 @@
 из инфискной в постфиксную нотацию, обработкой ввода и графика
 */
 
-#ifndef SRC_MODEL_H_
-#define SRC_MODEL_H_
+#ifndef SRC_MODEL_MODEL_H_
+#define SRC_MODEL_MODEL_H_
 
 #include <math.h>
 #include <string.h>
@@ -24,14 +24,25 @@ namespace s21 {
 bool IsNumber(char c);
 class Model {
  public:
-   /**
- * @brief Проверка ввода чисел и X
+ /**
+ * @brief Проверка ввода чисел и Xlong double
  * @param input - числа
  * @param input_x - X
  * @return Возвpащает false если значение не корректно или X не валиден
  */
   bool Input(const char* input, const char* input_x);
+  /**
+ * @brief Переопределение Input под long double
+ * @param input - числа
+ * @param input_x - X
+ * @return Возвpащает false если значение не корректно или X не валиден
+ */
   bool Input(const char* input, long double x);
+  /**
+ * @brief Проверка на корректность вводимых значений диапазона и шага для графа
+ * @param step - шаг отрисовки
+ * @return Возвpащает false если значение не корректно или step не валиден
+ */
   bool CheckGraph(const char* x_min_char_str, const char* x_max_char_str,
                   const char* y_min_char_str, const char* y_max_char_str,
                   const char* step_char_str, long double& x_min,
@@ -69,7 +80,7 @@ class Model {
     LOG
   };
   long double result_;
-  bool CheckDoubleCorrectness(const char* input_expr_x_, long double& x);
+  bool CheckDouble(const char* input_expr_x_, long double& x);
   class InputStringParsing;
   class ReversePolishNotationCalculation;
   bool CheckStrlen(const char* input);
@@ -126,7 +137,7 @@ class Model::ReversePolishNotationCalculation {
   ~ReversePolishNotationCalculation() {}
   void TranslateToRpn(std::vector<Lexeme>& lexemes_);
   int IsOperator(Lexeme lexeme);
-  int ReversePolishNotationCalculator(long double& result);
+  int PolishNotation(long double& result);
 
  private:
   std::vector<Lexeme> stack_;
@@ -135,4 +146,4 @@ class Model::ReversePolishNotationCalculation {
 };
 }  // namespace s21
 
-#endif  // SRC_MODEL_H_
+#endif  // SRC_MODEL_MODEL_H_
