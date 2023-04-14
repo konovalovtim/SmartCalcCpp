@@ -16,7 +16,7 @@
 #define SIZE 255
 
 namespace s21 {
-  /**
+/**
  * @brief Проверка на ввод числовых значений
  * @param с - Считываемый символ
  * @return Возвpащает true если это число, false если не число
@@ -24,30 +24,34 @@ namespace s21 {
 bool IsNumber(char c);
 class Model {
  public:
- /**
- * @brief Проверка ввода чисел и Xlong double
- * @param input - числа
- * @param input_x - X
- * @return Возвpащает false если значение не корректно или X не валиден
- */
+  /**
+   * @brief Проверка ввода чисел и Xlong double
+   * @param input - значения
+   * @param input_x - X
+   * @return Возвpащает false если значение не корректно или X не валиден
+   */
   bool Input(const char* input, const char* input_x);
   /**
- * @brief Переопределение Input под long double
- * @param input - числа
- * @param input_x - X
- * @return Возвpащает false если значение не корректно или X не валиден
- */
+   * @brief Переопределение Input под long double
+   * @param input - значения
+   * @param input_x - X
+   * @return Возвpащает false если значение не корректно или X не валиден
+   */
   bool Input(const char* input, long double x);
   /**
- * @brief Проверка на корректность вводимых значений диапазона и шага для графа
- * @param step - шаг отрисовки
- * @return Возвpащает false если значение не корректно или step не валиден
- */
+   * @brief Проверка на корректность вводимых значений диапазона и шага для
+   * графа
+   * @param step - шаг отрисовки
+   * @return Возвpащает false если значение не корректно или step не валиден
+   */
   bool CheckGraph(const char* x_min_char_str, const char* x_max_char_str,
                   const char* y_min_char_str, const char* y_max_char_str,
                   const char* step_char_str, long double& x_min,
                   long double& x_max, long double& y_min, long double& y_max,
                   long double& step);
+  /**
+   * @brief Геттер для result_
+   */
   long double GetResult() { return result_; }
 
  private:
@@ -56,6 +60,9 @@ class Model {
     int priority;
     int type;
   };
+  /**
+   * @brief Тип лексем
+   */
   enum Type {
     NUMBER,
     VARIABLE,
@@ -80,9 +87,19 @@ class Model {
     LOG
   };
   long double result_;
+  /**
+   * @brief Проверка вводимых значений
+   * @param input - значения
+   * @param input_x - X
+   * @return Возвpащает true если это число, false если не число
+   */
   bool CheckDouble(const char* input_expr_x_, long double& x);
   class InputStringParsing;
-  class ReversePolishNotationCalculation;
+  class PolishNotation;
+  /**
+   * @brief Проверка размера вводимых значений
+   * @return Возвpащает false если не значение больше заданного размера SIZE
+   */
   bool CheckStrlen(const char* input);
   bool Calculation(InputStringParsing& input_string_parsing_obj);
 };
@@ -124,20 +141,36 @@ class Model::InputStringParsing {
   bool return_value_;
   int input_count, lexeme_count, bracket_count;
   const char* input_;
+  /**
+   * @brief Очистить массив лексем
+   */
   void ClearMassiveForLexemes();
 };
 
-class Model::ReversePolishNotationCalculation {
+class Model::PolishNotation {
  public:
-  ReversePolishNotationCalculation() {
+  PolishNotation() {
     stack_.reserve(SIZE);
     output_.reserve(SIZE);
     stack_count = output_amount = -1;
   }
-  ~ReversePolishNotationCalculation() {}
+  ~PolishNotation() {}
+  /**
+   * @brief Перевод в нотацию
+   */
   void TranslateToRpn(std::vector<Lexeme>& lexemes_);
+  /**
+   * @brief Проверка, является ли лексема операторов от минуса до логорифма в
+   * enum Type
+   * @return номер под которым лежит оператор
+   */
   int IsOperator(Lexeme lexeme);
-  int PolishNotation(long double& result);
+  /**
+   * @brief Калькуляция
+   * @param result - Поступающее значение
+   * @return Возвpащает false если значение не корректно
+   */
+  int PolishNotationCalculation(long double& result);
 
  private:
   std::vector<Lexeme> stack_;

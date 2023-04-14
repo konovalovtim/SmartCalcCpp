@@ -56,9 +56,9 @@ bool Model::CheckStrlen(const char* input) {
 
 bool Model::Calculation(InputStringParsing& input_string_parsing_obj) {
   bool return_value = true;
-  ReversePolishNotationCalculation reverse_polish_notation_obj;
-  reverse_polish_notation_obj.TranslateToRpn(input_string_parsing_obj.lexemes_);
-  return_value = reverse_polish_notation_obj.PolishNotation(result_);
+  PolishNotation polishNotationObj;
+  polishNotationObj.TranslateToRpn(input_string_parsing_obj.lexemes_);
+  return_value = polishNotationObj.PolishNotationCalculation(result_);
   if (return_value && isnan(result_)) return_value = false;
   return return_value;
 }
@@ -689,8 +689,7 @@ bool IsNumber(char c) {
   return 0;
 }
 
-void Model::ReversePolishNotationCalculation::TranslateToRpn(
-    std::vector<Lexeme>& lexemes_) {
+void Model::PolishNotation::TranslateToRpn(std::vector<Lexeme>& lexemes_) {
   for (int lex_cnt = 0; lexemes_[lex_cnt].type != -1; lex_cnt++) {
     if (lexemes_[lex_cnt].type == NUMBER) {
       output_amount++;
@@ -726,14 +725,13 @@ void Model::ReversePolishNotationCalculation::TranslateToRpn(
   }
 }
 
-int Model::ReversePolishNotationCalculation::IsOperator(Lexeme lexeme) {
+int Model::PolishNotation::IsOperator(Lexeme lexeme) {
   int return_value = 0;
   if (UNARY_MINUS <= lexeme.type && lexeme.type <= LOG) return_value = 1;
   return return_value;
 }
 
-int Model::ReversePolishNotationCalculation::PolishNotation(
-    long double& result) {
+int Model::PolishNotation::PolishNotationCalculation(long double& result) {
   int return_value = true;
   std::vector<Lexeme> stack;
   stack.reserve(SIZE);
